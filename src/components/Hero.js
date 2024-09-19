@@ -1,19 +1,29 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./styles/Hero.css";
+import photo_dp from "../assets/images/DP.png";
 
 const Hero = () => {
   return (
     <section className="hero-container">
       <div className="hero-content">
-        <h1 className="hero-title">Welcome to My Portfolio</h1>
-        <p className="hero-description">
-          Explore my projects, skills, and experiences. Let's connect and work
-          together to create something amazing.
+        <div className="hero-photo">
+          <img src={photo_dp} alt="Profile" className="hero-profile-img" />
+        </div>
+        <h1 className="hero-title">Hello, I'm A. Mohamed Sharfiras</h1>
+        <p className="hero-intro">
+          I am a Creative Web Developer, passionate about creating innovative
+          solutions and connecting with people. I love solving problems and
+          building engaging user experiences.
         </p>
-        <Link to="/contact" className="hero-button">
-          Contact Me
-        </Link>
+        <div className="hero-buttons">
+          <Link to="/contact" className="hero-button">
+            Get in Touch
+          </Link>
+          <Link to="/projects" className="hero-button hero-button-secondary">
+            My Projects
+          </Link>
+        </div>
       </div>
     </section>
   );
