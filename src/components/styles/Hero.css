@@ -47,6 +47,7 @@
 
 .hero-button:hover {
   background-color: var(--button-hover-background);
+  color: var(--button-hover-text-color);
 }
 
 @media (max-width: 768px) {

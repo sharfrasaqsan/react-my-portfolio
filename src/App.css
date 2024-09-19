@@ -1,17 +1,17 @@
 :root {
   /* Light mode colors */
-  --primary-color: #f9fafb; /* Light background */
-  --secondary-color: #f97316; /* Orange for highlights */
-  --text-color: #111827; /* Dark text color */
-  --background-color: #ffffff; /* White background for main areas */
-  --highlight-color: #f97316; /* Consistent orange highlight */
-  --white-color: #ffffff; /* White color for contrast */
+  --primary-color: #f9fafb;
+  --secondary-color: #f97316;
+  --text-color: #111827;
+  --background-color: #ffffff;
+  --highlight-color: #f97316;
+  --white-color: #ffffff;
   --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   --box-shadow-hover: 0 8px 20px rgba(0, 0, 0, 0.2);
-  --button-background: #e85d04; /* Orange button */
-  --button-text-color: #fff; /* White text on button */
-  --button-hover-background: #d84d03; /* Darker orange on hover */
-  --button-hover-text-color: #fff; /* Optional: White text on hover */
+  --button-background: #e85d04;
+  --button-text-color: #fff;
+  --button-hover-background: #d84d03;
+  --button-hover-text-color: #fff;
 
   --font-family: "Trebuchet MS", sans-serif;
   --heading-font-size: 2.5rem;
@@ -40,7 +40,7 @@
 
 body {
   background-color: var(--background-color);
-  font-family: var(--font-family);
+  font-family: "Trebuchet MS", Helvetica, Arial, sans-serif;
   color: var(--text-color);
   transition: background-color var(--transition-duration) var(--transition-ease),
     color var(--transition-duration) var(--transition-ease);
@@ -78,7 +78,6 @@ small {
 }
 
 /* Sections, cards, and buttons */
-
 .card {
   padding: var(--card-padding);
   border-radius: var(--border-radius);
@@ -100,6 +99,7 @@ button {
 
 button:hover {
   background-color: var(--highlight-color);
+  color: var(--button-hover-text-color);
 }
 
 /* Flexbox layout */
