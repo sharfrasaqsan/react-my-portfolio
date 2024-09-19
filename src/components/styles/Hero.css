@@ -1,0 +1,64 @@
+/* Adjust for the header height, assuming it's fixed and around 60px */
+.hero-container {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  min-height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 0 20px;
+  position: relative;
+  z-index: 1;
+  background-image: url("https://img.freepik.com/free-photo/top-view-desk-concept-with-laptop_23-2148236828.jpg?w=1380&t=st=1726757565~exp=1726758165~hmac=f568abc4866effb69320a24a7d16c65eddad8597ca6e9673b20855cc53e7560e");
+  background-size: cover;
+  background-position: center;
+  transition: background-color var(--transition-duration) var(--transition-ease),
+    color var(--transition-duration) var(--transition-ease);
+  margin-top: 75px; /* Adjust based on the header height */
+}
+
+.hero-content {
+  max-width: 800px;
+}
+
+.hero-title {
+  font-size: 3rem;
+  margin-bottom: 20px;
+  font-family: var(--font-family);
+  color: var(--text-color);
+}
+
+.hero-description {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+  line-height: 1.5;
+  color: var(--text-color);
+}
+
+.hero-button {
+  padding: var(--button-padding);
+  background-color: var(--button-background);
+  color: var(--button-text-color);
+  text-decoration: none;
+  border-radius: var(--border-radius);
+  transition: background-color var(--transition-duration) var(--transition-ease);
+}
+
+.hero-button:hover {
+  background-color: var(--button-hover-background);
+}
+
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 2.5rem;
+  }
+
+  .hero-description {
+    font-size: 1rem;
+  }
+
+  .hero-button {
+    font-size: 0.9rem;
+  }
+}
