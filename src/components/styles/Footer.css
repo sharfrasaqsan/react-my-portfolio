@@ -1,0 +1,25 @@
+footer {
+  background-color: var(--primary-color);
+  color: var(--text-color);
+  text-align: center;
+  padding: 20px;
+  width: 100%;
+  box-shadow: var(--box-shadow);
+  flex-shrink: 0; /* Prevents the footer from shrinking and sticks it to the bottom */
+}
+
+.footer-content p {
+  margin: 0;
+  font-size: var(--small-font-size);
+}
+
+/* Responsive Footer */
+@media (max-width: 768px) {
+  footer {
+    padding: 15px;
+  }
+
+  .footer-content p {
+    font-size: var(--small-font-size);
+  }
+}
