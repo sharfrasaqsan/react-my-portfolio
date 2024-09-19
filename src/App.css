@@ -1,38 +1,112 @@
-.App {
-  text-align: center;
-}
+:root {
+  --primary-color: #1f2937;
+  --secondary-color: #f97316;
+  --text-color: #e5e7eb;
+  --white-color: #ffffff;
+  --dark-bg-color: #111827;
+  --light-bg-color: #f9fafb;
+  --box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  --transition-ease: 0.3s ease;
+  --z-index-header: 1000;
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
+  /* Typography */
+  --font-family: "Trebuchet MS", sans-serif;
+  --heading-font-size: 2.5rem;
+  --subheading-font-size: 2rem;
+  --paragraph-font-size: 1rem;
+  --small-font-size: 0.875rem;
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+  /* Spacing */
+  --section-padding: 40px;
+  --card-padding: 20px;
+  --button-padding: 12px 24px;
+
+  /* Border Radius */
+  --border-radius: 8px;
+
+  /* Box Shadow */
+  --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --box-shadow-hover: 0 8px 20px rgba(0, 0, 0, 0.2);
+
+  /* Z-Index */
+  --z-index-header: 10;
+  --z-index-footer: 5;
+
+  /* Transition */
+  --transition-duration: 0.3s;
+  --transition-ease: ease;
+
+  /* Dark Mode */
+  body.dark-mode {
+    --primary-color: #1e1e2e;
+    --secondary-color: #ffffff;
+    --text-color: #ffffff;
+    --highlight-color: #ffa500;
   }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
 }
 
-.App-link {
-  color: #61dafb;
+body {
+  background-color: var(--background-color);
+  font-family: var(--font-family) !important;
+  color: var(--text-color);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+h1,
+h2,
+h3 {
+  color: var(--primary-color);
+}
+
+a {
+  color: var(--secondary-color);
+  transition: color var(--transition-duration) var(--transition-ease);
+}
+
+a:hover {
+  color: var(--hover-color);
+}
+
+h1 {
+  font-size: var(--heading-font-size);
+}
+
+p {
+  font-size: var(--paragraph-font-size);
+}
+
+small {
+  font-size: var(--small-font-size);
+  color: var(--light-text-color);
+}
+
+section {
+  padding: var(--section-padding);
+}
+
+.card {
+  padding: var(--card-padding);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+}
+
+.card:hover {
+  box-shadow: var(--box-shadow-hover);
+}
+
+button {
+  padding: var(--button-padding);
+  background-color: var(--primary-color);
+  color: var(--white-color);
+  border-radius: var(--border-radius);
+  transition: background-color var(--transition-duration) var(--transition-ease);
+}
+
+button:hover {
+  background-color: var(--hover-color);
 }
