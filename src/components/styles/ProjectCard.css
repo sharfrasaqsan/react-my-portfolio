@@ -1,0 +1,86 @@
+.project-card {
+  background-color: var(--background-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  overflow: hidden;
+  margin: 20px;
+  max-width: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.project-card-image {
+  width: 100%;
+  min-height: 200px;
+}
+
+.project-card-content {
+  padding: 15px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.project-card-title {
+  margin-bottom: 25px;
+}
+
+.project-card-description {
+  font-size: var(--paragraph-font-size);
+  margin-bottom: 25px;
+}
+
+.project-card-technologies {
+  font-size: var(--small-font-size);
+  margin-bottom: 25px;
+}
+
+.project-card-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.project-card-button {
+  padding: var(--button-padding);
+  background-color: var(--secondary-color);
+  color: var(--button-text-color);
+  border-radius: var(--border-radius);
+  text-decoration: none;
+  text-align: center;
+  display: inline-block;
+  transition: background-color var(--transition-duration) var(--transition-ease);
+  font-size: var(--small-font-size);
+}
+
+.project-card-button:hover {
+  background-color: var(--button-hover-back);
+  color: var(--button-hover-text-color);
+}
+
+.project-card-button.disabled {
+  pointer-events: none; /* Disable clicking */
+  opacity: 0.5; /* Style to indicate it's disabled */
+}
+
+@media (max-width: 768px) {
+  .project-card {
+    max-width: 100%;
+    margin: 10px;
+  }
+
+  .project-card-description,
+  .project-card-technologies {
+    font-size: var(--small-font-size-sm);
+  }
+
+  .project-card-buttons {
+    flex-direction: column;
+  }
+
+  .project-card-button {
+    width: 100%;
+  }
+}

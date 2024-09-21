@@ -1,0 +1,36 @@
+.project-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: var(--section-padding);
+  background-color: var(--background-color);
+  margin-top: 75px;
+}
+
+.project-list h2 {
+  width: 100%;
+  text-align: center;
+  font-size: var(--heading-font-size);
+  color: var(--text-color);
+  margin-bottom: 30px;
+}
+
+.project-card {
+  margin: 15px;
+  flex: 1 1 calc(33.333% - 30px); /* Three cards per row with space in between */
+  max-width: calc(33.333% - 30px);
+}
+
+@media (max-width: 1024px) {
+  .project-card {
+    flex: 1 1 calc(50% - 30px); /* Two cards per row on medium screens */
+    max-width: calc(50% - 30px);
+  }
+}
+
+@media (max-width: 768px) {
+  .project-card {
+    flex: 1 1 100%; /* One card per row on small screens */
+    max-width: 100%;
+  }
+}
