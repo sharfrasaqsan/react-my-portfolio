@@ -12,7 +12,7 @@
 
 .project-card-image {
   width: 100%;
-  min-height: 200px;
+  min-height: 225px;
 }
 
 .project-card-content {
@@ -56,7 +56,7 @@
 }
 
 .project-card-button:hover {
-  background-color: var(--button-hover-back);
+  background-color: var(--button-hover-background);
   color: var(--button-hover-text-color);
 }
 

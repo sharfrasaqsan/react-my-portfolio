@@ -13,6 +13,7 @@ const ProjectCard = ({ project }) => {
     repoLink = "#",
   } = project;
 
+
   const handleLinkClick = (e) => {
     e.preventDefault();
   };
