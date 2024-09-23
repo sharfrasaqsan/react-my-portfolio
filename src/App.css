@@ -12,6 +12,7 @@
   --button-text-color: #fff;
   --button-hover-background: #d84d03;
   --button-hover-text-color: #fff;
+  --constant-dark-color: #1a1a1a;
 
   /* Base font sizes for larger screens */
   --font-family: "Trebuchet MS", sans-serif;
@@ -40,6 +41,22 @@
   --transition-ease: ease;
 
   --paragraph-weight: 400;
+}
+
+/* Dark mode colors */
+.dark-mode {
+  --primary-color: #1a1a1a; /* Dark background */
+  --secondary-color: #f97316; /* Keep secondary color for consistency */
+  --text-color: #e0e0e0; /* Light text color for contrast */
+  --background-color: #121212; /* Dark background */
+  --highlight-color: #f97316; /* Same highlight color */
+  --white-color: #ffffff;
+  --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  --box-shadow-hover: 0 8px 20px rgba(0, 0, 0, 0.5);
+  --button-background: #e85d04; /* Button color for dark mode */
+  --button-text-color: #fff;
+  --button-hover-background: #d84d03;
+  --button-hover-text-color: #fff;
 }
 
 * {

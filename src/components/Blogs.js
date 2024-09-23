@@ -12,11 +12,6 @@ const Blog = ({ posts }) => {
             <Link to={`/blogs/${post.id}`} className="blog-link">
               <h3 className="blog-title">{post.title}</h3>
               <p className="blog-date">{post.date}</p>
-              {/* <div className="blog-body">
-                {post.body.length > 150
-                  ? post.body.slice(0, 150) + "..."
-                  : post.body}
-              </div> */}
               <div
                 className="blog-body"
                 dangerouslySetInnerHTML={{

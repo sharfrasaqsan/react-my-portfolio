@@ -1,19 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./styles/Header.css";
 import { Link } from "react-router-dom";
-import { FiSun, FiMoon, FiMenu, FiX } from "react-icons/fi"; // Import icons from react-icons
+import { FiSun, FiMoon, FiMenu, FiX } from "react-icons/fi";
 
 const Header = () => {
-  const [isDarkMode, setIsDarkMode] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false); // State for mobile menu toggle
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    return localStorage.getItem("darkMode") === "true";
+  });
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  useEffect(() => {
+    document.body.classList.toggle("dark-mode", isDarkMode);
+    localStorage.setItem("darkMode", isDarkMode); // Save the preference
+  }, [isDarkMode]);
 
   const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
-    document.body.classList.toggle("dark-mode");
+    setIsDarkMode((prevMode) => !prevMode);
   };
 
   const toggleMenu = () => {
-    setMenuOpen(!menuOpen); // Toggle the mobile menu
+    setMenuOpen(!menuOpen);
   };
 
   return (

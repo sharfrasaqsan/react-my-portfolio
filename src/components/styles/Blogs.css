@@ -38,19 +38,19 @@
 
 .blog-title {
   font-size: var(--subheading-font-size);
-  color: var(--text-color);
+  color: var(--constant-dark-color);
   margin-bottom: var(--section-padding);
 }
 
 .blog-date {
   font-size: var(--small-font-size);
-  color: var(--text-color);
+  color: var(--constant-dark-color);
   margin-bottom: var(--section-padding);
 }
 
 .blog-body {
   font-size: var(--paragraph-font-size);
-  color: var(--text-color);
+  color: var(--constant-dark-color);
   line-height: 1.6;
   margin-bottom: var(--section-padding);
 }
