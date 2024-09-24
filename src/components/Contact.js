@@ -28,12 +28,31 @@ const Contact = () => {
     return Object.keys(errors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (validateForm()) {
-      setSuccessMessage("Your message has been sent successfully!");
-      setFormData({ name: "", email: "", message: "" });
-      setFormErrors({});
+
+    // Validate the form before submitting
+    if (!validateForm()) {
+      return; // Exit if validation fails
+    }
+
+    try {
+      const response = await fetch("http://localhost:5000/send", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      const data = await response.json();
+      if (response.ok) {
+        setSuccessMessage("Your message has been sent successfully!");
+        setFormData({ name: "", email: "", message: "" });
+      } else {
+        console.error("Error:", data);
+      }
+    } catch (error) {
+      console.error("Error sending message:", error);
     }
   };
 
@@ -75,7 +94,7 @@ const Contact = () => {
           onChange={handleChange}
           className={formErrors.message ? "input-error" : ""}
         />
-        
+
         {formErrors.message && (
           <span className="error-message">{formErrors.message}</span>
         )}
