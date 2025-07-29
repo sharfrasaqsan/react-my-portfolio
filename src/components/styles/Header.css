@@ -39,6 +39,11 @@
   color: var(--highlight-color);
 }
 
+.active-link {
+  color: var(--highlight-color) !important;
+  border-bottom: 2px solid var(--highlight-color);
+}
+
 .theme-toggle {
   display: flex;
   align-items: center;
