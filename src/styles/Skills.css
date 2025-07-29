@@ -3,14 +3,15 @@
   background-color: var(--background-color);
   color: var(--text-color);
   text-align: center;
-  margin-top: 90px;
   max-width: 1024px;
   margin-left: auto;
   margin-right: auto;
+  margin-top: 30px;
+  margin-bottom: 30px;
 }
 
 .skills-container h2 {
-  margin-bottom: 20px;
+  margin-bottom: 30px;
   font-size: var(--heading-font-size);
 }
 
@@ -23,6 +24,7 @@
 
 .skills-category {
   flex-basis: 45%;
+  margin-bottom: 40px;
 }
 
 .skills-category h3 {

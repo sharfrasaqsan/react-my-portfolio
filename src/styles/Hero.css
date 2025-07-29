@@ -1,7 +1,7 @@
 .hero-container {
   background-color: var(--background-color);
   color: var(--text-color);
-  min-height: 80vh;
+  min-height: 90vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -14,7 +14,6 @@
   background-position: center;
   transition: background-color var(--transition-duration) var(--transition-ease),
     color var(--transition-duration) var(--transition-ease);
-  margin-top: 75px;
 }
 
 .hero-content {

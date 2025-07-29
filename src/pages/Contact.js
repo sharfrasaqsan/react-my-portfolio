@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./styles/Contact.css";
+import "../styles/Contact.css";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -37,13 +37,16 @@ const Contact = () => {
     }
 
     try {
-      const response = await fetch("https://node-portfolio-contact-server.vercel.app/send", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+      const response = await fetch(
+        "https://node-portfolio-contact-server.vercel.app/send",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
       const data = await response.json();
       if (response.ok) {
         setSuccessMessage("Your message has been sent successfully!");

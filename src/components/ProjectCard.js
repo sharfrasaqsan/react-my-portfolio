@@ -1,5 +1,5 @@
 import React from "react";
-import "./styles/ProjectCard.css";
+import "../styles/ProjectCard.css";
 
 const ProjectCard = ({ project }) => {
   if (!project) return null;

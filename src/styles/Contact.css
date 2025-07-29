@@ -1,11 +1,9 @@
 .contact-container {
-  max-width: 800px;
-  margin: 75px auto 0;
+  width: 50%;
   padding: var(--section-padding);
   background-color: var(--background-color);
   border-radius: var(--border-radius);
-  min-height: 80vh;
-  margin-top: 90px;
+  margin: 30px auto;
 }
 
 .contact-container h2 {
@@ -78,4 +76,16 @@
   text-align: center;
   margin-top: var(--section-padding);
   font-size: var(--paragraph-font-size);
+}
+
+@media (max-width: 768px) {
+  .contact-container {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .contact-container {
+    padding: var(--section-padding);
+  }
 }
