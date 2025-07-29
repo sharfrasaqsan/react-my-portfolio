@@ -136,15 +136,8 @@ main {
   flex: 1;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  min-height: 75vh;
   transition: background-color var(--transition-duration) var(--transition-ease);
-}
-
-/* Responsive styles */
-@media (max-width: 768px) {
-  main {
-    min-height: 90vh;
-  }
 }
 
 /* Responsive styles for small screens (mobile) */

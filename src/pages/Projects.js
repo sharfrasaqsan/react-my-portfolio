@@ -1,7 +1,6 @@
-import React from "react";
 import ProjectList from "../components/ProjectList";
 
-const ProjectPage = () => {
+const Projects = () => {
   return (
     <section>
       <ProjectList />
@@ -9,4 +8,4 @@ const ProjectPage = () => {
   );
 };
 
-export default ProjectPage;
+export default Projects;

@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import "./styles/Header.css";
+import { useState, useEffect } from "react";
+import "../styles/Header.css";
 import { Link, NavLink } from "react-router-dom";
 import { FiSun, FiMoon, FiMenu, FiX } from "react-icons/fi";
 
@@ -11,7 +11,7 @@ const Header = () => {
 
   useEffect(() => {
     document.body.classList.toggle("dark-mode", isDarkMode);
-    localStorage.setItem("darkMode", isDarkMode); // Save the preference
+    localStorage.setItem("darkMode", isDarkMode);
   }, [isDarkMode]);
 
   const toggleDarkMode = () => {
@@ -85,6 +85,15 @@ const Header = () => {
               Contact
             </NavLink>
           </li>
+          <li>
+            <NavLink
+              to="/login"
+              onClick={() => setMenuOpen(false)}
+              className={({ isActive }) => (isActive ? "active-link" : "")}
+            >
+              Admin Login
+            </NavLink>
+          </li>
         </ul>
       </div>
       <div className="theme-toggle">
@@ -95,7 +104,11 @@ const Header = () => {
 
       {/* Mobile menu toggle button */}
       <div className="mobile-menu-toggle">
-        <button className="menu-button" onClick={toggleMenu}>
+        <button
+          className="menu-button"
+          onClick={toggleMenu}
+          aria-label="Toggle navigation menu"
+        >
           {menuOpen ? <FiX size={30} /> : <FiMenu size={30} />}
         </button>
       </div>

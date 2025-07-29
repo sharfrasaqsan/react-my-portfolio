@@ -1,7 +1,6 @@
-import React from "react";
-import "./styles/About.css"; // Using your global variables
-import photo_dp from "../assets/images/DP.png"; // Your headshot or personal graphic
-import resume from "../assets/documents/Resume.pdf"; // Your resume PDF
+import "../styles/About.css";
+import photo_dp from "../assets/images/DP.png";
+import resume from "../assets/documents/Resume.pdf";
 
 const About = () => {
   return (

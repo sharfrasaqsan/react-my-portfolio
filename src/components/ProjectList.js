@@ -1,5 +1,5 @@
-import { React, useState } from "react";
-import "./styles/ProjectList.css";
+import { useState } from "react";
+import "../styles/ProjectList.css";
 import ProjectCard from "./ProjectCard";
 
 import pcns from "../assets/images/projects/pcns (1).png";
