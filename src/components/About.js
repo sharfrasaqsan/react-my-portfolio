@@ -12,14 +12,30 @@ const About = () => {
           alt="A. Mohamed Sharfiras"
           className="about-photo"
         />
+
         <h2>A. Mohamed Sharfiras</h2>
-        <p className="about-intro">
-          I’m a passionate <strong>Frontend Web Developer</strong> with a love
-          for
-          <strong> problem-solving</strong>, <strong>design</strong>, and
-          creating
-          <strong> memorable web experiences</strong>. Here's my story.
+        <p
+          className="about-intro"
+          style={{ maxWidth: "1024px", lineHeight: "1.6" }}
+        >
+          I'm a <strong>Frontend Web Developer</strong> with{" "}
+          <strong>3+ years of experience</strong> crafting
+          <em> responsive</em>, <em>accessible</em>, and <em>user-focused</em>{" "}
+          websites.
+          <br />
+          <br />
+          My journey began with a curiosity about how websites work. Today, I
+          build modern, scalable web applications using{" "}
+          <strong>React.js</strong>, <strong>JavaScript (ES6+)</strong>,{" "}
+          <strong>HTML5</strong>,<strong>CSS3</strong>, and{" "}
+          <strong>REST APIs</strong>. At Oscar Wylee, I focus on performance,
+          SEO, and clean UI development across devices.
+          <br />
+          <br />I also bring hands-on experience with platforms like{" "}
+          <strong>Magento 2</strong> and <strong>WordPress</strong>, enabling me
+          to support both eCommerce and content-driven sites effectively.
         </p>
+
         <a href={resume} download className="resume-button">
           Download Resume
         </a>
@@ -35,15 +51,13 @@ const About = () => {
           experiences while delivering <b>high-performance web applications</b>.
         </p>
 
-        <h3>Career Goals</h3>
+        <h3 id="career-goals">Career Goals</h3>
         <p>
-          My aim is to further grow as a <strong>full-stack developer</strong>,
-          with a focus on building
-          <strong> scalable</strong> and{" "}
-          <strong>efficient web applications</strong>. I aspire to work with{" "}
-          <b>innovative teams</b> where I can contribute my skills, collaborate
-          on exciting projects, and continue learning{" "}
-          <b>cutting-edge technologies</b>.
+          I'm currently expanding into <strong>full-stack development</strong>{" "}
+          with technologies like <strong>Node.js</strong>,{" "}
+          <strong>Express</strong>, and <strong>Next.js</strong>. My goal is to
+          join <em>innovative teams</em> where I can contribute meaningfully,
+          solve real-world problems, and grow with emerging tech.
         </p>
 
         <h3>Career Background</h3>

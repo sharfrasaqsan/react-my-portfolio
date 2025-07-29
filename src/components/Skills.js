@@ -109,10 +109,10 @@ const Skills = () => {
             </div>
           </div>
           <div className="skill">
-            <span>VSCode</span>
+            <span>Firebase</span>
             <div className="progress-bar">
               <div className="progress" style={{ width: "85%" }}>
-                85%
+                75%
               </div>
             </div>
           </div>
@@ -178,8 +178,8 @@ const Skills = () => {
         <ul>
           <li>Introduction to Front-End Development - Coursera - 2023</li>
           <li>
-            Web Design for Beginners - Faculty of
-            Information Technology, University of Moratuwa - 2022
+            Web Design for Beginners - Faculty of Information Technology,
+            University of Moratuwa - 2022
           </li>
         </ul>
       </div>

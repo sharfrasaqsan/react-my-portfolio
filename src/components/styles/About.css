@@ -37,11 +37,13 @@
   text-decoration: none;
   border-radius: var(--border-radius);
   transition: background-color var(--transition-duration) var(--transition-ease);
+  box-shadow: 0 4px 12px var(--button-background);
 }
 
 .resume-button:hover {
   background-color: var(--button-hover-background);
   color: var(--button-hover-text-color);
+  box-shadow: 0 6px 20px var(--button-hover-background);
 }
 
 .about-content {

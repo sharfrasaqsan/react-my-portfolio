@@ -13,6 +13,7 @@ import SkillsPage from "./pages/SkillsPage";
 import ProjectPage from "./pages/ProjectPage";
 import ContactPage from "./pages/ContactPage";
 import BlogsPage from "./pages/BlogsPage";
+import ScrollToTop from "./utils/ScrollToTop";
 
 function App() {
   const [posts] = useState([
@@ -170,6 +171,7 @@ function App() {
   return (
     <div className="App">
       <BlogProvider value={posts}>
+        <ScrollToTop />
         <Header />
         <Routes>
           <Route path="/" element={<HomePage />} />

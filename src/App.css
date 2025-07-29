@@ -122,6 +122,8 @@ button {
   color: var(--button-text-color);
   border-radius: var(--border-radius);
   transition: background-color var(--transition-duration) var(--transition-ease);
+  cursor: pointer;
+  border: none;
 }
 
 button:hover {
