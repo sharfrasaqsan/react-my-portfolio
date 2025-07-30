@@ -44,7 +44,7 @@ function App() {
       <Footer />
       <ToastContainer
         position="top-center"
-        autoClose={3000}
+        autoClose={1500}
         hideProgressBar={false}
         newestOnTop={true}
         closeOnClick={false}

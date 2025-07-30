@@ -15,8 +15,7 @@ const styles = {
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    padding: "2rem",
-    marginTop: "5rem",
+    marginTop: "10rem",
   },
 };
 

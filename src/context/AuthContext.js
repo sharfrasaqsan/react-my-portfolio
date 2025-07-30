@@ -9,11 +9,10 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      setLoading(true);
       if (user) {
         try {
           const fetchCurrentUser = await getDoc(doc(db, "admin", user.uid));
@@ -24,15 +23,17 @@ export const AuthProvider = ({ children }) => {
             toast.error("User not found");
           }
         } catch (err) {
-          setUser(null);
           toast.error("User not found", err.message);
         } finally {
           setLoading(false);
         }
+      } else {
+        setUser(null);
+        setLoading(false);
       }
     });
 
-    unsubscribe();
+    return () => unsubscribe();
   }, []);
 
   if (loading) {

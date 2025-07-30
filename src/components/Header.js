@@ -89,6 +89,17 @@ const Header = () => {
               Contact
             </NavLink>
           </li>
+
+          <li>
+            <NavLink
+              to="/admin"
+              onClick={() => setMenuOpen(false)}
+              className={({ isActive }) => (isActive ? "active-link" : "")}
+            >
+              Admin Panel
+            </NavLink>
+          </li>
+
           {!user ? (
             <li>
               <NavLink
