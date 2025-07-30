@@ -1,18 +1,9 @@
 import React from "react";
 import "../styles/ProjectCard.css";
+import { Link } from "react-router-dom";
 
 const ProjectCard = ({ project }) => {
   if (!project) return null;
-
-  const {
-    title = "Project Title",
-    description = "No description available.",
-    technologies = [],
-    screenshot = "default-screenshot.jpg",
-    liveLink = "#",
-    repoLink = "#",
-  } = project;
-
 
   const handleLinkClick = (e) => {
     e.preventDefault();
@@ -21,22 +12,26 @@ const ProjectCard = ({ project }) => {
   return (
     <div className="project-card">
       <img
-        src={screenshot}
-        alt={`${title} screenshot`}
+        src={project.screenshot}
+        alt={`${project.title} screenshot`}
         className="project-card-image"
       />
       <div className="project-card-content">
-        <div className="project-card-head">
-          <h3 className="project-card-title">{title}</h3>
-          <p className="project-card-description">{description}</p>
-          <div className="project-card-technologies">
-            <strong>Technologies:</strong> {technologies.join(", ")}
+        <Link to={`/project/${project.id}`}>
+          <div className="project-card-head">
+            <h3 className="project-card-title">{project.title}</h3>
+            <p className="project-card-description">
+              {project.shortDescription}
+            </p>
+            <div className="project-card-technologies">
+              <strong>Tech Stack:</strong> {project.technologies.join(", ")}
+            </div>
           </div>
-        </div>
+        </Link>
         <div className="project-card-buttons">
-          {liveLink ? (
+          {project.liveLink ? (
             <a
-              href={liveLink}
+              href={project.liveLink}
               className="project-card-button"
               target="_blank"
               rel="noopener noreferrer"
@@ -53,9 +48,9 @@ const ProjectCard = ({ project }) => {
             </a>
           )}
 
-          {repoLink ? (
+          {project.repoLink ? (
             <a
-              href={repoLink}
+              href={project.repoLink}
               className="project-card-button"
               target="_blank"
               rel="noopener noreferrer"

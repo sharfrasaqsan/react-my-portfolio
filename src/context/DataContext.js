@@ -8,6 +8,7 @@ const DataContext = createContext();
 export const DataProvider = ({ children }) => {
   const [projects, setProjects] = useState([]);
   const [admin, setAdmin] = useState([]);
+
   const [project, setProject] = useState({
     title: "",
     shortDescription: "",
@@ -49,6 +50,22 @@ export const DataProvider = ({ children }) => {
     fetchAdmin();
   }, []);
 
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const res = await getDocs(collection(db, "projects"));
+        const resData = res.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+        setProjects(resData);
+      } catch (err) {
+        toast.error("Failed to fetch data!", err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProjects();
+  }, []);
+
   return (
     <DataContext.Provider
       value={{
@@ -70,5 +87,5 @@ export const DataProvider = ({ children }) => {
 };
 
 export const useData = () => {
-  useContext(DataContext);
+  return useContext(DataContext);
 };

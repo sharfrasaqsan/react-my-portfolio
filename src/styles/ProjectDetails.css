@@ -1,0 +1,67 @@
+.project-details {
+  margin: 30px auto;
+  padding: var(--section-padding);
+  border-radius: var(--border-radius);
+  max-width: 1024px;
+}
+
+.project-details h3 {
+  font-size: var(--subheading-font-size);
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.project-details time {
+  display: block;
+  font-size: var(--small-font-size);
+  color: gray;
+  margin-bottom: 10px;
+}
+
+.project-details img {
+  width: 100%;
+  max-height: 400px;
+  object-fit: cover;
+  border-radius: var(--border-radius);
+  margin: 20px 0;
+  box-shadow: var(--box-shadow);
+}
+
+.project-details p {
+  font-size: var(--paragraph-font-size);
+  margin-bottom: 15px;
+  line-height: 1.6;
+}
+
+.project-details ul {
+  list-style-type: disc;
+  margin-left: 20px;
+  margin-bottom: 20px;
+}
+
+.project-details ul li {
+  font-size: var(--paragraph-font-size);
+  margin-bottom: 5px;
+}
+
+.project-details .project-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.project-details .project-links a {
+  text-decoration: none;
+  background-color: var(--button-background);
+  color: var(--button-text-color);
+  padding: 10px 20px;
+  border-radius: var(--border-radius);
+  transition: background-color var(--transition-duration) var(--transition-ease);
+  font-weight: 600;
+}
+
+.project-details .project-links a:hover {
+  background-color: var(--button-hover-background);
+  color: var(--button-hover-text-color);
+}
