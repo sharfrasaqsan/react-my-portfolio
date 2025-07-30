@@ -1,5 +1,7 @@
-import { createContext, useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { collection, getDocs } from "firebase/firestore";
+import { createContext, useContext, useEffect, useState } from "react";
+import { db } from "../firebase";
+import { toast } from "react-toastify";
 
 const DataContext = createContext();
 
@@ -29,8 +31,23 @@ export const DataProvider = ({ children }) => {
     updatedAt: "",
   });
 
-  const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchAdmin = async () => {
+      try {
+        const res = await getDocs(collection(db, "admin"));
+        const resData = res.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+        setAdmin(resData);
+      } catch (err) {
+        toast.error("Failed to fetch data!", err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAdmin();
+  }, []);
 
   return (
     <DataContext.Provider
@@ -43,7 +60,6 @@ export const DataProvider = ({ children }) => {
         setProject,
         editProject,
         setEditProject,
-        navigate,
         loading,
         setLoading,
       }}

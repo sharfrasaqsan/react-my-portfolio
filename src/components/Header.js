@@ -2,8 +2,12 @@ import { useState, useEffect } from "react";
 import "../styles/Header.css";
 import { Link, NavLink } from "react-router-dom";
 import { FiSun, FiMoon, FiMenu, FiX } from "react-icons/fi";
+import Lougout from "./Lougout";
+import { useAuth } from "../context/AuthContext";
 
 const Header = () => {
+  const { user } = useAuth();
+
   const [isDarkMode, setIsDarkMode] = useState(() => {
     return localStorage.getItem("darkMode") === "true";
   });
@@ -85,17 +89,22 @@ const Header = () => {
               Contact
             </NavLink>
           </li>
-          <li>
-            <NavLink
-              to="/login"
-              onClick={() => setMenuOpen(false)}
-              className={({ isActive }) => (isActive ? "active-link" : "")}
-            >
-              Admin Login
-            </NavLink>
-          </li>
+          {!user ? (
+            <li>
+              <NavLink
+                to="/login"
+                onClick={() => setMenuOpen(false)}
+                className={({ isActive }) => (isActive ? "active-link" : "")}
+              >
+                Admin Login
+              </NavLink>
+            </li>
+          ) : null}
         </ul>
       </div>
+
+      <Lougout />
+
       <div className="theme-toggle">
         <button className="toggle-button" onClick={toggleDarkMode}>
           {isDarkMode ? <FiMoon size={24} /> : <FiSun size={24} />}
