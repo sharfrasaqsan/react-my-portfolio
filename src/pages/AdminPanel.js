@@ -4,25 +4,42 @@ import { useData } from "../context/DataContext";
 import { toast } from "react-toastify";
 import { deleteDoc, doc } from "firebase/firestore";
 import { db } from "../firebase";
+import "../styles/AdminPanel.css";
+import { useState } from "react";
 
 const AdminPanel = () => {
   const { user } = useAuth();
   const { projects, setProjects } = useData();
-
   const navigate = useNavigate();
 
-  if (projects.length === 0) return <p>No projects found!</p>;
+  const [deleting, setDeleting] = useState(false);
 
   if (!user)
     return (
-      <p>
+      <p className="admin-message">
         You need to be logged in to view this page!
         <br />
-        <NavLink to="/login">Login</NavLink> Here.
+        <NavLink to="/login" className="admin-login-link">
+          Login
+        </NavLink>{" "}
+        Here.
+      </p>
+    );
+
+  if (projects.length === 0)
+    return (
+      <p className="admin-message">
+        No projects found! You need to create a project first!
+        <br />
+        <Link to="/admin/project/create" className="admin-login-link">
+          Create a Project
+        </Link>{" "}
+        Here.
       </p>
     );
 
   const handleDeleteProject = async (projectId) => {
+    setDeleting(true);
     try {
       await deleteDoc(doc(db, "projects", projectId));
       setProjects((projects) =>
@@ -31,45 +48,64 @@ const AdminPanel = () => {
       toast.success("Project deleted successfully!");
       navigate("/admin");
     } catch (err) {
-      toast.error("Failed to delete project!", err.message);
+      toast.error("Failed to delete project! " + err.message);
+    } finally {
+      setDeleting(false);
     }
   };
 
   return (
-    <section>
-      <div>
-        <h2>Admin Panel</h2>
+    <div className="admin-panel">
+      <h2>Admin Panel</h2>
 
-        <Link to="/admin/project/create">
-          <button type="button">Add Project</button>
+      <div className="admin-panel-container">
+        <Link to="/admin/project/create" className="admin-add-link">
+          <button type="button" className="btn btn-primary admin-add-btn">
+            Add Project
+          </button>
         </Link>
 
-        <div>
-          <table>
-            <tr>
-              <th>Project Title</th>
-              <th>Actions</th>
-            </tr>
-            {projects.map((project) => (
-              <tr key={project.id}>
-                <Link to={`/project/${project.id}`}>
-                  <td>{project.title}</td>
-                </Link>
-                <td>
-                  <Link to={`/admin/project/edit/${project.id}`}>Edit</Link>
-                  <button
-                    type="button"
-                    onClick={() => handleDeleteProject(project.id)}
-                  >
-                    Delete
-                  </button>
-                </td>
+        <div className="admin-table-wrapper">
+          <table className="admin-table">
+            <thead>
+              <tr>
+                <th>Project Title</th>
+                <th>Actions</th>
               </tr>
-            ))}
+            </thead>
+            <tbody>
+              {projects.map((project) => (
+                <tr key={project.id} className="admin-table-row">
+                  <td>
+                    <Link
+                      to={`/project/${project.id}`}
+                      className="admin-project-link"
+                    >
+                      {project.title}
+                    </Link>
+                  </td>
+                  <td className="admin-actions-cell">
+                    <Link
+                      to={`/admin/project/edit/${project.id}`}
+                      className="btn btn-secondary admin-edit-btn"
+                    >
+                      Edit
+                    </Link>
+                    <button
+                      type="button"
+                      className="btn btn-danger admin-delete-btn"
+                      onClick={() => handleDeleteProject(project.id)}
+                    >
+                      {deleting ? "Deleting..." : "Delete"}
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
           </table>
         </div>
       </div>
-    </section>
+    </div>
   );
 };
 
