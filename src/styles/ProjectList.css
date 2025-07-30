@@ -4,8 +4,9 @@
   justify-content: center;
   padding: var(--section-padding);
   background-color: var(--background-color);
-  margin-top: 30px;
-  margin-bottom: 30px;
+  margin: 30px auto;
+  max-width: 1280px;
+  gap: 30px;
 }
 
 .project-list h2 {
@@ -13,60 +14,53 @@
   text-align: center;
   font-size: var(--heading-font-size);
   color: var(--text-color);
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 
-.project-list form {
+.project-search-form {
   width: 100%;
-  margin-bottom: 20px;
   display: flex;
   justify-content: center;
-  max-height: 40px;
+  margin-bottom: 25px;
 }
 
-.project-list input[type="text"] {
+.project-search-form input[type="text"] {
   width: 100%;
-  max-width: 500px; /* Limit the width of the search box */
-  padding: 10px;
+  max-width: 500px;
+  padding: 10px 14px;
   border: 1px solid #ddd;
   border-radius: var(--border-radius);
   font-size: var(--paragraph-font-size);
-  color: var(--text-color);
   background-color: var(--input-background-color);
+  color: var(--text-color);
   box-shadow: var(--input-box-shadow);
 }
 
-.project-list input[type="text"]::placeholder {
+.project-search-form input[type="text"]::placeholder {
   color: #888;
 }
 
-.project-list input[type="text"]:focus {
+.project-search-form input[type="text"]:focus {
   outline: none;
   box-shadow: var(--input-box-shadow-focus);
+}
+
+.project-card-section {
+  flex: 1 1 calc(33.333% - 30px);
+  max-width: calc(33.333% - 30px);
+  display: flex;
 }
 
 .no-projects-found {
   text-align: center;
   font-size: var(--paragraph-font-size);
-  min-height: 60vh;
-}
-
-.project-card {
-  margin: 15px;
-  flex: 1 1 calc(33.333% - 30px); /* Three cards per row with space in between */
-  max-width: calc(33.333% - 30px);
-}
-
-@media (max-width: 1024px) {
-  .project-card {
-    flex: 1 1 calc(50% - 30px); /* Two cards per row on medium screens */
-    max-width: calc(50% - 30px);
-  }
+  color: var(--text-color);
+  margin-top: 40px;
 }
 
 @media (max-width: 768px) {
-  .project-card {
-    flex: 1 1 100%; /* One card per row on small screens */
+  .project-card-section {
+    flex: 1 1 100%;
     max-width: 100%;
   }
 }

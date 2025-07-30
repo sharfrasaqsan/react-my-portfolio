@@ -1,0 +1,136 @@
+.admin-panel {
+  margin: 30px auto;
+  padding: var(--section-padding);
+  max-width: 1024px;
+  color: var(--text-color);
+  width: 100%;
+}
+
+.admin-panel-container {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.admin-panel h2 {
+  font-size: var(--heading-font-size);
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.admin-add-link {
+  align-self: flex-start;
+}
+
+.admin-add-link button {
+  padding: var(--button-padding);
+  background-color: var(--button-background);
+  color: var(--button-text-color);
+  border-radius: var(--border-radius);
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color var(--transition-duration) var(--transition-ease);
+}
+
+.admin-add-link button:hover {
+  background-color: var(--button-hover-background);
+  color: var(--button-hover-text-color);
+}
+
+.admin-table-wrapper {
+  overflow-x: auto;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--paragraph-font-size);
+}
+
+.admin-table th,
+.admin-table td {
+  padding: 14px 16px;
+  border: 1px solid black;
+  text-align: left;
+}
+
+.admin-project-link {
+  text-decoration: none;
+  transition: color var(--transition-duration) var(--transition-ease);
+}
+
+.admin-project-link:hover {
+  text-decoration: underline;
+}
+
+.admin-actions-cell {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.admin-actions-cell a,
+.admin-actions-cell button {
+  padding: 8px 16px;
+  border-radius: var(--border-radius);
+  font-size: var(--small-font-size);
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: background-color var(--transition-duration) var(--transition-ease);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.admin-actions-cell a {
+  background-color: green;
+  color: var(--white-color);
+}
+
+.admin-actions-cell a:hover {
+  background-color: #4a944a;
+}
+
+.admin-actions-cell button {
+  background-color: red; /* subtle red */
+  color: var(--white-color);
+}
+
+.admin-actions-cell button:hover {
+  background-color: #d84d03;
+}
+
+.admin-message {
+  font-size: var(--paragraph-font-size);
+  color: var(--text-color);
+  text-align: center;
+  margin-top: 40px;
+}
+
+.admin-login-link {
+  color: var(--secondary-color);
+  font-weight: 600;
+  text-decoration: none;
+  transition: color var(--transition-duration) var(--transition-ease);
+}
+
+.admin-login-link:hover {
+  color: var(--highlight-color);
+  text-decoration: underline;
+}
+
+/* Responsive */
+
+@media (max-width: 768px) {
+  .admin-actions-cell {
+    flex-direction: column;
+  }
+
+  .admin-actions-cell a,
+  .admin-actions-cell button {
+    width: 100%;
+  }
+}

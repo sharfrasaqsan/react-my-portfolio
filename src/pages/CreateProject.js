@@ -5,6 +5,7 @@ import { format } from "date-fns";
 import { addDoc, collection } from "firebase/firestore";
 import { db } from "../firebase";
 import { useNavigate } from "react-router-dom";
+import "../styles/CreateProject.css";
 
 const CreateProject = () => {
   const { project, setProject, projects, setProjects } = useData();
@@ -108,8 +109,8 @@ const CreateProject = () => {
   };
 
   return (
-    <section>
-      <div>
+    <section className="create-project-section">
+      <div className="create-project-container">
         <h2>Create Project</h2>
         <form onSubmit={handleCreateProject}>
           <label htmlFor="title">Title</label>

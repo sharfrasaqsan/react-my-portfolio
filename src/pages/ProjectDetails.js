@@ -1,8 +1,9 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useData } from "../context/DataContext";
 import Loading from "../utils/Loading";
 import { format } from "date-fns";
 import { useAuth } from "../context/AuthContext";
+import { FaArrowLeftLong } from "react-icons/fa6";
 import "../styles/ProjectDetails.css";
 
 const ProjectDetails = () => {
@@ -25,20 +26,24 @@ const ProjectDetails = () => {
     return <p>Project not found.</p>;
   }
 
-  const formatDate = (timestamp) => {
-    if (!timestamp?.seconds) return "N/A";
-    return format(new Date(timestamp.seconds * 1000), "yyyy-MM-dd HH:mm");
-  };
-
   return (
     <section className="project-details">
+      <Link to="/projects" className="back-link">
+        <FaArrowLeftLong /> Back to Projects
+      </Link>
+
       <h3>{project.title}</h3>
+
       <article>
         {user && (
           <>
-            <time>Created at: {formatDate(project.createdAt)}</time>
+            <time>
+              <stong>Created at:</stong> {project.createdAt}
+            </time>
             {project.updatedAt && (
-              <time>Updated at: {formatDate(project.updatedAt)}</time>
+              <time>
+                <strong>Updated at:</strong> {project.updatedAt}
+              </time>
             )}
           </>
         )}
@@ -47,8 +52,16 @@ const ProjectDetails = () => {
           <img src={project.screenshot} alt={`${project.title} screenshot`} />
         )}
 
-        <p>
-          <strong>Description:</strong> {project.description}
+        <p style={{ textAlign: "justify" }}>
+          <strong>Description:</strong> <br />
+          {project.description.split("\n").map((para, idx) => (
+            <p
+              key={idx}
+              style={{ textAlign: "justify", whiteSpace: "pre-line" }}
+            >
+              {para}
+            </p>
+          ))}
         </p>
 
         <p>
@@ -61,10 +74,23 @@ const ProjectDetails = () => {
         </ul>
 
         <div className="project-links">
-          <a href={project.liveLink} target="_blank" rel="noopener noreferrer">
+          <a
+            href={project.liveLink || "#"}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-disabled={!project.liveLink}
+            className={!project.liveLink ? "disabled-link" : ""}
+          >
             Live Link
           </a>
-          <a href={project.repoLink} target="_blank" rel="noopener noreferrer">
+
+          <a
+            href={project.repoLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-disabled={!project.repoLink}
+            className={!project.repoLink ? "disabled-link" : ""}
+          >
             Repo Link
           </a>
         </div>
