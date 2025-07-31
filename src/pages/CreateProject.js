@@ -6,11 +6,16 @@ import { addDoc, collection } from "firebase/firestore";
 import { db } from "../firebase";
 import { useNavigate } from "react-router-dom";
 import "../styles/CreateProject.css";
+import Loading from "../utils/Loading";
 
 const CreateProject = () => {
-  const { project, setProject, projects, setProjects } = useData();
+  const { project, setProject, projects, setProjects, loading } = useData();
   const [uploading, setUploading] = useState(false);
   const navigate = useNavigate();
+
+  if (loading) return <Loading />;
+
+  if (!project) return <p>Project not found</p>;
 
   const uploadImageToCloudinary = async (file) => {
     const formData = new FormData();

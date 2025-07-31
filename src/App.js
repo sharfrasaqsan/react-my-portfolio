@@ -17,8 +17,12 @@ import Login from "./pages/Login";
 import CreateProject from "./pages/CreateProject";
 import EditProject from "./pages/EditProject";
 import AdminPanel from "./pages/AdminPanel";
+import BlogDetails from "./pages/BlogDetails";
+import CreateBlog from "./pages/CreateBlog";
+import EditBlog from "./pages/EditBlog";
 
 import ScrollToTop from "./utils/ScrollToTop";
+import Blogs from "./pages/Blogs";
 function App() {
   return (
     <div className="App">
@@ -32,9 +36,13 @@ function App() {
           <Route path="/skills" element={<Skills />} />
           <Route path="/projects" element={<Projects />} />
           <Route path="/project/:id" element={<ProjectDetails />} />
+          <Route path="/blogs" element={<Blogs />} />
+          <Route path="/blog/:id" element={<BlogDetails />} />
           <Route path="/admin" element={<AdminPanel />} />
           <Route path="/admin/project/create" element={<CreateProject />} />
           <Route path="/admin/project/edit/:id" element={<EditProject />} />
+          <Route path="/admin/blog/create" element={<CreateBlog />} />
+          <Route path="/admin/blog/edit/:id" element={<EditBlog />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="*" element={<NotFound />} />
           <Route path="/login" element={<Login />} />

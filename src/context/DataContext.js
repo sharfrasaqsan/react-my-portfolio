@@ -8,6 +8,7 @@ const DataContext = createContext();
 export const DataProvider = ({ children }) => {
   const [projects, setProjects] = useState([]);
   const [admin, setAdmin] = useState([]);
+  const [blogs, setBlogs] = useState([]);
 
   const [project, setProject] = useState({
     title: "",
@@ -32,6 +33,19 @@ export const DataProvider = ({ children }) => {
     updatedAt: "",
   });
 
+  const [blog, setBlog] = useState({
+    title: "",
+    content: "",
+    createdAt: "",
+    updatedAt: "",
+  });
+  const [editBlog, setEditBlog] = useState({
+    title: "",
+    content: "",
+    createdAt: "",
+    updatedAt: "",
+  });
+
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -41,7 +55,7 @@ export const DataProvider = ({ children }) => {
         const resData = res.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
         setAdmin(resData);
       } catch (err) {
-        toast.error("Failed to fetch data!", err.message);
+        toast.error(`Failed to fetch data! ${err.message}`);
       } finally {
         setLoading(false);
       }
@@ -57,13 +71,29 @@ export const DataProvider = ({ children }) => {
         const resData = res.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
         setProjects(resData);
       } catch (err) {
-        toast.error("Failed to fetch data!", err.message);
+        toast.error(`Failed to fetch data! ${err.message}`);
       } finally {
         setLoading(false);
       }
     };
 
     fetchProjects();
+  }, []);
+
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      try {
+        const res = await getDocs(collection(db, "blogs"));
+        const resData = res.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+        setBlogs(resData);
+      } catch (err) {
+        toast.error(`Failed to fetch data! ${err.message}`);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBlogs();
   }, []);
 
   return (
@@ -79,6 +109,12 @@ export const DataProvider = ({ children }) => {
         setEditProject,
         loading,
         setLoading,
+        blogs,
+        setBlogs,
+        blog,
+        setBlog,
+        editBlog,
+        setEditBlog,
       }}
     >
       {children}

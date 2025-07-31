@@ -1,7 +1,6 @@
 import { Link, useParams } from "react-router-dom";
 import { useData } from "../context/DataContext";
 import Loading from "../utils/Loading";
-import { format } from "date-fns";
 import { useAuth } from "../context/AuthContext";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import "../styles/ProjectDetails.css";
@@ -17,13 +16,13 @@ const ProjectDetails = () => {
   }
 
   if (projects.length === 0) {
-    return <p>No projects found.</p>;
+    return <p className="no-projects-found">No projects to show!</p>;
   }
 
   const project = projects.find((project) => project.id === id);
 
   if (!project) {
-    return <p>Project not found.</p>;
+    return <p className="no-project-found">Project not found!</p>;
   }
 
   return (

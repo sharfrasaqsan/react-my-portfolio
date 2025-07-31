@@ -1,0 +1,21 @@
+.blogs-section {
+  padding: var(--section-padding);
+  background-color: var(--background-color);
+  margin: 30px auto;
+  width: 100%;
+}
+
+.blogs-section h2 {
+  text-align: center;
+  font-size: var(--heading-font-size);
+  color: var(--text-color);
+  margin-bottom: 30px;
+}
+
+.blogs-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  justify-content: center;
+}
+
