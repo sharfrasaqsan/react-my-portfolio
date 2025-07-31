@@ -1,5 +1,5 @@
 .about-container {
-  background-color: var(--background-color);
+  /* background-color: var(--background-color); */
   padding: var(--section-padding);
   display: flex;
   flex-direction: column;

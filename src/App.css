@@ -63,11 +63,11 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+  font-family: var(--font-family);
 }
 
 body {
   background-color: var(--background-color);
-  font-family: var(--font-family);
   font-size: var(--paragraph-font-size);
   color: var(--text-color);
   transition: background-color var(--transition-duration) var(--transition-ease),

@@ -111,10 +111,11 @@ const Header = () => {
               </NavLink>
             </li>
           ) : null}
+          <li>
+            <Lougout />
+          </li>
         </ul>
       </div>
-
-      <Lougout />
 
       <div className="theme-toggle">
         <button className="toggle-button" onClick={toggleDarkMode}>

@@ -61,6 +61,7 @@
   padding: 8px;
   border-radius: 50%;
   transition: background-color var(--transition-duration) var(--transition-ease);
+  font-size: 1.2rem;
 }
 
 .toggle-button:hover {
@@ -96,6 +97,10 @@
 
 /* Mobile styles */
 @media (max-width: 768px) {
+  .header-logo .header-brand {
+    font-size: 1.2rem;
+  }
+
   .header-nav ul {
     display: none;
     flex-direction: column;

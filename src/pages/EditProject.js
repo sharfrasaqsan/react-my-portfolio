@@ -5,6 +5,7 @@ import { format } from "date-fns";
 import { toast } from "react-toastify";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
+import "../styles/EditProject.css";
 
 const EditProject = () => {
   const { editProject, setEditProject, projects, setProjects } = useData();
@@ -35,6 +36,22 @@ const EditProject = () => {
 
     const data = await res.json();
     return data.secure_url;
+  };
+
+  const cencelEdit = () => {
+    navigate(`/project/${id}`);
+    toast.warning("Project update canceled!");
+    setEditProject({
+      title: "",
+      shortDescription: "",
+      description: "",
+      technologies: [],
+      screenshot: "",
+      liveLink: "",
+      repoLink: "",
+      createdAt: "",
+      updatedAt: "",
+    });
   };
 
   const handleOnchange = (e) => {
@@ -108,8 +125,8 @@ const EditProject = () => {
   };
 
   return (
-    <section>
-      <div>
+    <section className="edit-project-section">
+      <div className="edit-project-container">
         <h2>Edit Project</h2>
         <form
           onSubmit={(e) => {
@@ -151,7 +168,7 @@ const EditProject = () => {
             value={editProject.description}
             onChange={handleOnchange}
             autoComplete="off"
-            rows="10"
+            rows="20"
           />
 
           <label htmlFor="technologies">Technologies</label>
@@ -213,6 +230,10 @@ const EditProject = () => {
 
           <button type="submit" disabled={updating}>
             {updating ? "Updating..." : "Update Project"}
+          </button>
+
+          <button type="button" onClick={() => cencelEdit()}>
+            Cencel
           </button>
         </form>
       </div>

@@ -50,6 +50,22 @@ const CreateProject = () => {
     }
   };
 
+  const cencelCreate = () => {
+    navigate("/projects");
+    toast.warning("Project creation canceled!");
+    setProject({
+      title: "",
+      shortDescription: "",
+      description: "",
+      technologies: [],
+      screenshot: "",
+      liveLink: "",
+      repoLink: "",
+      createdAt: "",
+      updatedAt: "",
+    });
+  };
+
   const handleCreateProject = async (e) => {
     e.preventDefault();
 
@@ -206,6 +222,10 @@ const CreateProject = () => {
 
           <button type="submit" disabled={uploading}>
             {uploading ? "Creating..." : "Create Project"}
+          </button>
+
+          <button type="button" onClick={() => cencelCreate()}>
+            Cencel
           </button>
         </form>
       </div>
