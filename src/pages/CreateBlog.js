@@ -15,7 +15,7 @@ const CreateBlog = () => {
 
   if (loading) return <Loading />;
 
-  if (!blog) return <p>Blog not found</p>;
+  if (!blog) return <p className="no-blogs-found">Blog not found</p>;
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
