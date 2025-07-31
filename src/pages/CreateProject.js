@@ -15,7 +15,7 @@ const CreateProject = () => {
 
   if (loading) return <Loading />;
 
-  if (!project) return <p>Project not found</p>;
+  if (!project) return <p className="no-projects-found">Project not found</p>;
 
   const uploadImageToCloudinary = async (file) => {
     const formData = new FormData();

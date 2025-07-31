@@ -24,7 +24,8 @@ const EditProject = () => {
 
   if (loading) return <loading />;
 
-  if (!editProject) return <p>Project is not found!</p>
+  if (!editProject)
+    return <p className="no-projects-found">Project is not found!</p>;
 
   const uploadImageToCloudinary = async (file) => {
     const formData = new FormData();

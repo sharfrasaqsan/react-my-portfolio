@@ -47,28 +47,31 @@ const BlogDetails = () => {
       </Link>
 
       <h3>{blog.title}</h3>
+
       <article>
-        <time>
-          <p>Created at: {blog.createdAt}</p>
-        </time>
-        <time>{blog.updatedAt && <p>Updated at: {blog.updatedAt}</p>}</time>
+        <time>Created at: {blog.createdAt}</time>
+        {blog.updatedAt && <time>Updated at: {blog.updatedAt}</time>}
 
         <div className="blog-content">
           {blog.content.split("\n").map((para, idx) => (
-            <p key={idx} style={{ whiteSpace: "pre-line" }}>
-              {para}
-            </p>
+            <p key={idx}>{para}</p>
           ))}
         </div>
       </article>
 
       {user && (
         <div className="blog-links">
-          <button>
-            <Link to={`/admin/blog/edit/${blog.id}`}>Edit</Link>
-          </button>
-
-          <button onClick={() => handleDeleteBlog(blog.id)}>
+          <Link
+            to={`/admin/blog/edit/${blog.id}`}
+            className="action-btn edit-btn"
+          >
+            Edit
+          </Link>
+          <button
+            className="action-btn delete-btn"
+            onClick={() => handleDeleteBlog(blog.id)}
+            disabled={deleting}
+          >
             {deleting ? "Deleting..." : "Delete"}
           </button>
         </div>

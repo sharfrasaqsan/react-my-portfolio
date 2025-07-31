@@ -24,7 +24,7 @@ const EditBlog = () => {
 
   if (loading) return <Loading />;
 
-  if (!editBlog) return <p>Blog not found!</p>;
+  if (!editBlog) return <p className="no-blogs-found">Blog not found!</p>;
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
