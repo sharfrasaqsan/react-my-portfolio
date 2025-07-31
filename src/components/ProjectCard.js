@@ -42,7 +42,7 @@ const ProjectCard = ({ project }) => {
             rel="noopener noreferrer"
             onClick={(e) => !project.repoLink && e.preventDefault()}
           >
-            Source Code
+            Source
           </a>
         </div>
       </div>

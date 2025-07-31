@@ -3,6 +3,7 @@ import { auth } from "../firebase";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { CiLogout } from "react-icons/ci";
 import "../styles/Logout.css";
 
 const Lougout = () => {
@@ -20,9 +21,9 @@ const Lougout = () => {
   return (
     <>
       {user ? (
-        <button onClick={handleLogout} className="logout-button">
-          Logout
-        </button>
+        <li onClick={handleLogout} className="logout-button">
+          <CiLogout /> Logout
+        </li>
       ) : null}
     </>
   );

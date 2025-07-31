@@ -5,7 +5,7 @@
   padding: var(--section-padding);
   background-color: var(--background-color);
   margin: 30px auto;
-  max-width: 1280px;
+  /* max-width: 1280px; */
   gap: 30px;
 }
 
@@ -46,8 +46,8 @@
 }
 
 .project-card-section {
-  flex: 1 1 calc(33.333% - 30px);
-  max-width: calc(33.333% - 30px);
+  flex: 1 1 calc(25% - 30px);
+  max-width: calc(25% - 30px);
   display: flex;
 }
 
