@@ -59,11 +59,19 @@ const AdminPanel = () => {
       <h2>Admin Panel</h2>
 
       <div className="admin-panel-container">
-        <Link to="/admin/project/create" className="admin-add-link">
-          <button type="button" className="btn btn-primary admin-add-btn">
-            Add Project
-          </button>
-        </Link>
+        <div className="create-project-div">
+          <Link to="/admin/project/create" className="admin-add-link">
+            <button type="button" className="btn btn-primary admin-add-btn">
+              Add Project
+            </button>
+          </Link>
+
+          <Link to="/admin/blog/create" className="admin-add-link">
+            <button type="button" className="btn btn-primary admin-add-btn">
+              Add Blog
+            </button>
+          </Link>
+        </div>
 
         <div className="admin-table-wrapper">
           <table className="admin-table">

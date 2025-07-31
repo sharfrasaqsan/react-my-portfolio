@@ -8,7 +8,8 @@ import { db } from "../firebase";
 import "../styles/EditProject.css";
 
 const EditProject = () => {
-  const { editProject, setEditProject, projects, setProjects } = useData();
+  const { editProject, setEditProject, projects, setProjects, loading } =
+    useData();
   const [updating, setUpdating] = useState(false);
   const navigate = useNavigate();
   const { id } = useParams();
@@ -20,6 +21,10 @@ const EditProject = () => {
       setEditProject({ ...project });
     }
   }, [project, setEditProject]);
+
+  if (loading) return <loading />;
+
+  if (!editProject) return <p>Project is not found!</p>
 
   const uploadImageToCloudinary = async (file) => {
     const formData = new FormData();
@@ -114,6 +119,18 @@ const EditProject = () => {
           project.id === projectId ? { ...project, ...updatedProject } : project
         )
       );
+
+      setEditProject({
+        title: "",
+        shortDescription: "",
+        description: "",
+        technologies: [],
+        screenshot: "",
+        liveLink: "",
+        repoLink: "",
+        createdAt: "",
+        updatedAt: "",
+      });
 
       toast.success("Project updated successfully!");
       navigate(`/project/${projectId}`);

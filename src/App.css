@@ -13,6 +13,7 @@
   --button-hover-background: #d84d03;
   --button-hover-text-color: #fff;
   --constant-dark-color: #1a1a1a;
+  --table-border-color: #000;
 
   /* Base font sizes for larger screens */
   --font-family: "Trebuchet MS", sans-serif;
@@ -57,6 +58,7 @@
   --button-text-color: #fff;
   --button-hover-background: #d84d03;
   --button-hover-text-color: #fff;
+  --table-border-color: #fff;
 }
 
 * {
@@ -138,6 +140,16 @@ main {
   flex-direction: column;
   min-height: 75vh;
   transition: background-color var(--transition-duration) var(--transition-ease);
+}
+
+.no-blogs-found,
+.no-projects-found {
+  text-align: center;
+  font-size: var(--paragraph-font-size);
+  color: var(--text-color);
+  margin: auto;
+  
+  
 }
 
 /* Responsive styles for small screens (mobile) */
