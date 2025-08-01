@@ -2,30 +2,31 @@ import "../styles/ProjectList.css";
 import ProjectCard from "./ProjectCard";
 import { useData } from "../context/DataContext";
 import Loading from "../utils/Loading";
+import Search from "./Search";
 
 const ProjectList = () => {
-  const { projects, loading } = useData();
+  const { projects, loading, searchedProjects } = useData();
 
   if (loading) return <Loading />;
+
   if (projects.length === 0)
     return <p className="no-projects-found">No projects found!</p>;
 
   return (
-    <div className="project-list">
+    <div className="project-list-container">
       <h2>Projects</h2>
 
-      {/* Optional Search Bar (if needed later) */}
-      {/* 
-      <form className="project-search-form">
-        <input type="text" placeholder="Search projects..." />
-      </form>
-      */}
+      <Search />
 
-      {projects.map((project) => (
-        <div key={project.id} className="project-card-section">
-          <ProjectCard project={project} />
+      {searchedProjects && searchedProjects.length > 0 ? (
+        <div className="project-card-container">
+          {searchedProjects.map((project) => (
+            <ProjectCard key={project.id} project={project} />
+          ))}
         </div>
-      ))}
+      ) : (
+        <p className="no-projects-found">No projects found!</p>
+      )}
     </div>
   );
 };

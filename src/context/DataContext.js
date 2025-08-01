@@ -46,6 +46,9 @@ export const DataProvider = ({ children }) => {
     updatedAt: "",
   });
 
+  const [search, setSearch] = useState("");
+  const [searchedProjects, setSearchedProjects] = useState(projects);
+
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -96,6 +99,23 @@ export const DataProvider = ({ children }) => {
     fetchBlogs();
   }, []);
 
+  useEffect(() => {
+    const searhedResults = projects.filter((project) => {
+      const searchTerm = search.toLowerCase();
+
+      const titleMatch = project.title.toLowerCase().includes(searchTerm);
+
+      const techMatch = project.technologies
+        ?.join(" ")
+        .toLowerCase()
+        .includes(searchTerm);
+
+      return titleMatch || techMatch;
+    });
+
+    setSearchedProjects(searhedResults);
+  }, [projects, search, setSearchedProjects]);
+
   return (
     <DataContext.Provider
       value={{
@@ -115,6 +135,9 @@ export const DataProvider = ({ children }) => {
         setBlog,
         editBlog,
         setEditBlog,
+        search,
+        setSearch,
+        searchedProjects,
       }}
     >
       {children}
