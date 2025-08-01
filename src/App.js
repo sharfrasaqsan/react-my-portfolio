@@ -20,9 +20,11 @@ import AdminPanel from "./pages/AdminPanel";
 import BlogDetails from "./pages/BlogDetails";
 import CreateBlog from "./pages/CreateBlog";
 import EditBlog from "./pages/EditBlog";
+import Blogs from "./pages/Blogs";
 
 import ScrollToTop from "./utils/ScrollToTop";
-import Blogs from "./pages/Blogs";
+import PrivateRoute from "./utils/PrivateRoute";
+
 function App() {
   return (
     <div className="App">
@@ -38,11 +40,46 @@ function App() {
           <Route path="/project/:id" element={<ProjectDetails />} />
           <Route path="/blogs" element={<Blogs />} />
           <Route path="/blog/:id" element={<BlogDetails />} />
-          <Route path="/admin" element={<AdminPanel />} />
-          <Route path="/admin/project/create" element={<CreateProject />} />
-          <Route path="/admin/project/edit/:id" element={<EditProject />} />
-          <Route path="/admin/blog/create" element={<CreateBlog />} />
-          <Route path="/admin/blog/edit/:id" element={<EditBlog />} />
+          <Route
+            path="/admin"
+            element={
+              <PrivateRoute>
+                <AdminPanel />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/admin/project/create"
+            element={
+              <PrivateRoute>
+                <CreateProject />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/admin/project/edit/:id"
+            element={
+              <PrivateRoute>
+                <EditProject />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/admin/blog/create"
+            element={
+              <PrivateRoute>
+                <CreateBlog />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/admin/blog/edit/:id"
+            element={
+              <PrivateRoute>
+                <EditBlog />
+              </PrivateRoute>
+            }
+          />
           <Route path="/contact" element={<Contact />} />
           <Route path="*" element={<NotFound />} />
           <Route path="/login" element={<Login />} />
