@@ -1,70 +1,196 @@
-# Getting Started with Create React App
+# React My Portfolio
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This repository contains the source code for my personal portfolio website, built using React. It showcases my skills, projects, and blog posts, and provides a way for visitors to contact me.
 
-## Available Scripts
+## Features and Functionality
 
-In the project directory, you can run:
+*   **Homepage:** Introduces myself and provides links to key sections of the portfolio.
+*   **About:** Provides detailed information about my background, career goals, and experience. Includes a downloadable resume.
+*   **Skills:**  Displays my skills across different categories (Frontend, Backend, Tools & Frameworks, Soft Skills) using progress bars. Also includes certifications.
+*   **Projects:** Showcases my projects with descriptions, technologies used, live links, and source code links. Includes search functionality for filtering projects.
+*   **Blogs:** Displays blog posts with titles and excerpts. Users can click on a blog card to view the full blog details.
+*   **Contact:** Allows visitors to send me messages via a contact form.
+*   **Admin Panel:**  Allows authorized users to manage projects and blog posts. This section is protected by authentication. Includes functionalities to create, edit and delete projects and blogs.
+*   **Dark Mode:**  Allows users to toggle between light and dark themes, with preference saved in local storage.
+*   **Responsive Design:**  The website is designed to be responsive and accessible across different devices.
+*   **Scroll to Top:** Automatically scrolls to the top of the page when navigating to a new route.
 
-### `npm start`
+## Technology Stack
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+*   **React:** A JavaScript library for building user interfaces.
+*   **React Router:** For handling navigation between different pages.
+*   **Firebase:** Used for authentication and storing project and blog data.
+*   **React Toastify:**  For displaying toast notifications.
+*   **Date-fns:** For formatting dates.
+*   **Cloudinary:** For image storage.
+*   **CSS:** For styling the website. Custom CSS files are located in the `src/styles` directory.
+*   **JavaScript (ES6+)**
+*   **HTML5**
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Prerequisites
 
-### `npm test`
+Before running this project, you need to have the following installed:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+*   **Node.js:**  (version 16 or higher)
+*   **npm** or **yarn:** Package managers for JavaScript.
 
-### `npm run build`
+You also need a Firebase project set up with:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+*   **Authentication** enabled (Email/Password sign-in method)
+*   **Firestore** database created.
+*   Cloudinary account setup to upload project screenshots.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Installation Instructions
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+1.  **Clone the repository:**
 
-### `npm run eject`
+    ```bash
+    git clone https://github.com/sharfrasaqsan/react-my-portfolio.git
+    cd react-my-portfolio
+    ```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+2.  **Install dependencies:**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+    ```bash
+    npm install  # or yarn install
+    ```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+3.  **Configure Firebase:**
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+    *   Create a `.env` file in the root directory of the project.
+    *   Add your Firebase configuration details to the `.env` file.  You can find these in your Firebase project settings. Also add your Cloudinary API Key. The `.env` should look like this. 
 
-## Learn More
+    ```
+    REACT_APP_FIREBASE_API_KEY="YOUR_FIREBASE_API_KEY"
+    REACT_APP_FIREBASE_AUTH_DOMAIN="YOUR_FIREBASE_AUTH_DOMAIN"
+    REACT_APP_FIREBASE_PROJECT_ID="YOUR_FIREBASE_PROJECT_ID"
+    REACT_APP_FIREBASE_STORAGE_BUCKET="YOUR_FIREBASE_STORAGE_BUCKET"
+    REACT_APP_FIREBASE_MESSAGING_SENDER_ID="YOUR_FIREBASE_MESSAGING_SENDER_ID"
+    REACT_APP_FIREBASE_APP_ID="YOUR_FIREBASE_APP_ID"
+    REACT_APP_FIREBASE_MEASUREMENT_ID="YOUR_FIREBASE_MEASUREMENT_ID"
+    REACT_APP_CLOUDINARY_URL="YOUR_CLOUDINARY_URL"
+    ```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+    *   Update `src/firebase.js` with your Firebase configuration: Note that the API key here is just a placeholder and should be replaced with a live value from your environment.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+    ```javascript
+    import { initializeApp } from "firebase/app";
+    import { getAuth } from "firebase/auth";
+    import { getFirestore } from "firebase/firestore";
 
-### Code Splitting
+    const firebaseConfig = {
+      apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+      authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+      projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+      storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+      messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+      appId: process.env.REACT_APP_FIREBASE_APP_ID,
+      measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID
+    };
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+    const app = initializeApp(firebaseConfig);
 
-### Analyzing the Bundle Size
+    export const auth = getAuth(app);
+    export const db = getFirestore(app);
+    ```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+4.  **Set up Admin User:**
+    *   Create an admin user in your Firebase Authentication console.
+    *   Add the admin user's document to the `admin` collection in the Firestore database. The document ID should be the user's UID from Firebase Authentication. The document should contain at least the admin's email.
 
-### Making a Progressive Web App
+## Usage Guide
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+1.  **Start the development server:**
 
-### Advanced Configuration
+    ```bash
+    npm start # or yarn start
+    ```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+2.  **Open the website in your browser:**
 
-### Deployment
+    Go to `http://localhost:3000` (or the port specified by the development server).
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+**Admin Panel:**
 
-### `npm run build` fails to minify
+*   To access the admin panel, navigate to `/admin`.
+*   You will be redirected to the login page (`/login`) if you are not authenticated.
+*   Use the credentials of the admin user you created in Firebase to log in.
+*   Once logged in, you can create, edit, and delete projects and blogs.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+**Creating a New Project:**
+
+*   Navigate to `/admin/project/create`.
+*   Fill out the project details, including:
+    *   Title
+    *   Short Description
+    *   Description
+    *   Technologies (comma-separated)
+    *   Screenshot (upload an image)
+    *   Live Link (optional)
+    *   Repository Link (optional)
+
+**Editing an Existing Project:**
+
+*   Go to the admin panel at `/admin`.
+*   Click the "Edit" button next to the project you want to modify.
+*   Update the project details and click "Update Project".
+
+**Creating a New Blog Post:**
+
+*   Navigate to `/admin/blog/create`.
+*   Enter the blog title and content.
+
+**Editing a Blog Post:**
+
+*   Navigate to `/blogs` then click on any blog post.
+*   If logged in as an Admin, an "Edit" button should be visible which redirects to the edit page.
+
+**Contact Form:**
+
+*   The contact form in the `/contact` route sends emails to a backend server.
+*   The current implementation utilizes a Node.js server hosted on Vercel (`https://node-portfolio-contact-server.vercel.app/send`).  You may need to deploy your own server or configure a different email sending service.
+
+## API Documentation (Contact Form)
+
+The contact form uses an external API endpoint to send emails.
+
+*   **Endpoint:** `https://node-portfolio-contact-server.vercel.app/send`
+*   **Method:** `POST`
+*   **Headers:** `Content-Type: application/json`
+*   **Body:**
+
+    ```json
+    {
+      "name": "Your Name",
+      "email": "your@email.com",
+      "message": "Your message"
+    }
+    ```
+
+*   **Response:**
+
+    *   **Success (200 OK):**  Returns a JSON object indicating success.
+    *   **Error (500 Internal Server Error):** Returns a JSON object with an error message.
+
+## Contributing Guidelines
+
+Contributions are welcome! To contribute to this project, please follow these steps:
+
+1.  Fork the repository.
+2.  Create a new branch for your feature or bug fix.
+3.  Make your changes and commit them with clear and descriptive messages.
+4.  Test your changes thoroughly.
+5.  Submit a pull request to the `main` branch.
+
+## License Information
+
+This project does not have a specified license. All rights are reserved by the owner.
+
+## Contact/Support Information
+
+If you have any questions or need support, you can contact me through:
+
+*   **Email:**  sharfrasaqsan@gmail.com
+*   **GitHub:** [https://github.com/sharfrasaqsan](https://github.com/sharfrasaqsan)
+*   **LinkedIn:** [https://www.linkedin.com/in/sharfiras/](https://www.linkedin.com/in/sharfiras/)
+*   **Facebook:** [https://facebook.com/sharfras.aqsan97/](https://facebook.com/sharfras.aqsan97/)
