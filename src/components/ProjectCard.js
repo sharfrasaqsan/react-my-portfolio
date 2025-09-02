@@ -9,6 +9,8 @@ const ProjectCard = ({ project }) => {
       <img
         src={project.screenshot || "/fallback.jpg"}
         alt={`${project.title} Screenshot`}
+        loading="lazy"
+        style={{ objectFit: "cover" }}
         className="project-card-image"
       />
       <div className="project-card-content">
