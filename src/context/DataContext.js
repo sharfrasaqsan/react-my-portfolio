@@ -21,6 +21,7 @@ export const DataProvider = ({ children }) => {
     createdAt: "",
     updatedAt: "",
   });
+
   const [editProject, setEditProject] = useState({
     title: "",
     shortDescription: "",
@@ -58,7 +59,7 @@ export const DataProvider = ({ children }) => {
         const resData = res.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
         setAdmin(resData);
       } catch (err) {
-        toast.error(`Failed to fetch data! ${err.message}`);
+        toast.error(`Failed to fetch admin data! ${err.message}`);
       } finally {
         setLoading(false);
       }
@@ -74,7 +75,7 @@ export const DataProvider = ({ children }) => {
         const resData = res.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
         setProjects(resData);
       } catch (err) {
-        toast.error(`Failed to fetch data! ${err.message}`);
+        toast.error(`Failed to fetch projects data! ${err.message}`);
       } finally {
         setLoading(false);
       }
@@ -90,7 +91,7 @@ export const DataProvider = ({ children }) => {
         const resData = res.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
         setBlogs(resData);
       } catch (err) {
-        toast.error(`Failed to fetch data! ${err.message}`);
+        toast.error(`Failed to fetch blogs data! ${err.message}`);
       } finally {
         setLoading(false);
       }

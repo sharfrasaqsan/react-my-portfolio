@@ -148,8 +148,7 @@ main {
   font-size: var(--paragraph-font-size);
   color: var(--text-color);
   margin: auto;
-  
-  
+  margin-top: 50px;
 }
 
 /* Responsive styles for small screens (mobile) */
