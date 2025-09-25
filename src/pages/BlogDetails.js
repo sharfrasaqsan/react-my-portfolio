@@ -6,7 +6,6 @@ import { useAuth } from "../context/AuthContext";
 import { toast } from "react-toastify";
 import { deleteDoc, doc } from "firebase/firestore";
 import { db } from "../firebase";
-import "../styles/BlogDetails.css";
 import { useState } from "react";
 
 const BlogDetails = () => {
@@ -17,20 +16,16 @@ const BlogDetails = () => {
   const [deleting, setDeleting] = useState(false);
 
   if (loading) return <Loading />;
+  if (blogs.length === 0) return <p className="text-center text-body-secondary">No Blogs to show!</p>;
 
-  if (blogs.length === 0) {
-    return <p className="no-blogs-found">No Blogs to show!</p>;
-  }
-
-  const blog = blogs.find((blog) => blog.id === id);
-
-  if (!blog) return <p className="no-blogs-found">Blog not found!</p>;
+  const blog = blogs.find((b) => b.id === id);
+  if (!blog) return <p className="text-center text-body-secondary">Blog not found!</p>;
 
   const handleDeleteBlog = async (blogId) => {
     setDeleting(true);
     try {
       await deleteDoc(doc(db, "blogs", blogId));
-      setBlogs(blogs.filter((blog) => blog.id !== blogId));
+      setBlogs(blogs.filter((b) => b.id !== blogId));
       toast.success("Blog deleted successfully!");
       navigate("/blogs");
     } catch (err) {
@@ -41,41 +36,42 @@ const BlogDetails = () => {
   };
 
   return (
-    <section className="blog-container">
-      <Link to="/blogs" className="back-link">
+    <section className="container-xxl py-5">
+      <Link to="/blogs" className="btn btn-link text-decoration-none mb-3">
         <FaArrowLeftLong /> Back to Blogs
       </Link>
 
-      <h3>{blog.title}</h3>
+      <div className="card glass p-4">
+        <h3 className="h4">{blog.title}</h3>
+        <p className="small text-body-secondary">
+          Created at: {blog.createdAt}
+          {blog.updatedAt && <> • Updated at: {blog.updatedAt}</>}
+        </p>
 
-      <article>
-        <time>Created at: {blog.createdAt}</time>
-        {blog.updatedAt && <time>Updated at: {blog.updatedAt}</time>}
-
-        <div className="blog-content">
+        <div className="mb-4">
           {blog.content.split("\n").map((para, idx) => (
             <p key={idx}>{para}</p>
           ))}
         </div>
-      </article>
 
-      {user && (
-        <div className="blog-links">
-          <Link
-            to={`/admin/blog/edit/${blog.id}`}
-            className="action-btn edit-btn"
-          >
-            Edit
-          </Link>
-          <button
-            className="action-btn delete-btn"
-            onClick={() => handleDeleteBlog(blog.id)}
-            disabled={deleting}
-          >
-            {deleting ? "Deleting..." : "Delete"}
-          </button>
-        </div>
-      )}
+        {user && (
+          <div className="d-flex gap-2">
+            <Link
+              to={`/admin/blog/edit/${blog.id}`}
+              className="btn btn-sm btn-secondary"
+            >
+              Edit
+            </Link>
+            <button
+              className="btn btn-sm btn-danger"
+              onClick={() => handleDeleteBlog(blog.id)}
+              disabled={deleting}
+            >
+              {deleting ? "Deleting..." : "Delete"}
+            </button>
+          </div>
+        )}
+      </div>
     </section>
   );
 };

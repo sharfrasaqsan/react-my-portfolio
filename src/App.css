@@ -1,162 +1,261 @@
+/* =========================================================
+   2025 Modern Glass Theme (Bootstrap 5.3+)
+   Safari-safe: fallbacks for color-mix + backdrop-filter
+   ========================================================= */
+
+/* ---------- Base tokens (shared) ---------- */
 :root {
-  /* Light mode colors */
-  --primary-color: #f9fafb;
-  --secondary-color: #f97316;
-  --text-color: #111827;
-  --background-color: #ffffff;
-  --highlight-color: #f97316;
-  --white-color: #ffffff;
-  --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  --box-shadow-hover: 0 8px 20px rgba(0, 0, 0, 0.2);
-  --button-background: #e85d04;
-  --button-text-color: #fff;
-  --button-hover-background: #d84d03;
-  --button-hover-text-color: #fff;
-  --constant-dark-color: #1a1a1a;
-  --table-border-color: #000;
+  --brand: #8b5cf6; /* Adjust to your brand */
+  --radius-xl: 1.25rem;
+  --blur-xl: 18px;
+  --transition-fast: 180ms cubic-bezier(0.2, 0.8, 0.2, 1);
 
-  /* Base font sizes for larger screens */
-  --font-family: "Trebuchet MS", sans-serif;
-  --heading-font-size: 2rem;
-  --subheading-font-size: 1.5rem;
-  --paragraph-font-size: 1rem;
-  --small-font-size: 0.875rem;
-
-  /* Font sizes for small screens (mobile) */
-  --heading-font-size-sm: 1.5rem;
-  --subheading-font-size-sm: 1.125rem;
-  --paragraph-font-size-sm: 0.875rem;
-  --small-font-size-sm: 0.75rem;
-
-  --section-padding: 20px;
-  --form-padding: 10px;
-  --card-padding: 20px;
-  --button-padding: 12px 24px;
-
-  --border-radius: 8px;
-
-  --z-index-header: 10;
-  --z-index-footer: 5;
-
-  --transition-duration: 0.3s;
-  --transition-ease: ease;
-
-  --paragraph-weight: 400;
+  /* Bridge to Bootstrap */
+  --bs-primary: var(--brand);
 }
 
-/* Dark mode colors */
-.dark-mode {
-  --primary-color: #1a1a1a; /* Dark background */
-  --secondary-color: #f97316; /* Keep secondary color for consistency */
-  --text-color: #e0e0e0; /* Light text color for contrast */
-  --background-color: #121212; /* Dark background */
-  --highlight-color: #f97316; /* Same highlight color */
-  --white-color: #ffffff;
-  --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-  --box-shadow-hover: 0 8px 20px rgba(0, 0, 0, 0.5);
-  --button-background: #e85d04; /* Button color for dark mode */
-  --button-text-color: #fff;
-  --button-hover-background: #d84d03;
-  --button-hover-text-color: #fff;
-  --table-border-color: #fff;
+/* ---------- DARK MODE ---------- */
+:root[data-bs-theme="dark"] {
+  color-scheme: dark;
+
+  --bg-app: linear-gradient(120deg, #0f172a, #111827);
+  --surface-glass: rgba(255, 255, 255, 0.08);
+  --surface-glass-strong: rgba(255, 255, 255, 0.14);
+  --border-glass: rgba(255, 255, 255, 0.2);
+  --text-primary: #e5e7eb;
+  --text-muted: #9ca3af;
+  --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.25);
+  --shadow-hover: 0 16px 40px rgba(0, 0, 0, 0.35);
+
+  /* Map to Bootstrap CSS variables */
+  --bs-body-bg: transparent;
+  --bs-body-color: var(--text-primary);
+  --bs-secondary-color: var(--text-muted);
+  --bs-card-bg: var(--surface-glass);
+  --bs-card-border-color: var(--border-glass);
+  --bs-btn-color: var(--text-primary);
 }
 
-* {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-  font-family: var(--font-family);
+/* ---------- LIGHT MODE ---------- */
+:root[data-bs-theme="light"] {
+  color-scheme: light;
+
+  --bg-app: linear-gradient(120deg, #eef2ff, #f8fafc);
+  --surface-glass: rgba(255, 255, 255, 0.55);
+  --surface-glass-strong: rgba(255, 255, 255, 0.7);
+  --border-glass: rgba(15, 23, 42, 0.12);
+  --text-primary: #0f172a;
+  --text-muted: #475569;
+  --shadow-soft: 0 10px 30px rgba(15, 23, 42, 0.08);
+  --shadow-hover: 0 16px 40px rgba(15, 23, 42, 0.12);
+
+  --bs-body-bg: transparent;
+  --bs-body-color: var(--text-primary);
+  --bs-secondary-color: var(--text-muted);
+  --bs-card-bg: var(--surface-glass);
+  --bs-card-border-color: var(--border-glass);
+  --bs-btn-color: var(--text-primary);
 }
 
+/* ---------- App background ---------- */
+html,
+body,
+#root {
+  height: 100%;
+}
 body {
-  background-color: var(--background-color);
-  font-size: var(--paragraph-font-size);
-  color: var(--text-color);
-  transition: background-color var(--transition-duration) var(--transition-ease),
-    color var(--transition-duration) var(--transition-ease);
+  background: var(--bg-app) fixed;
+  background-size: cover;
+  /* iOS Safari smoothness */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-h1,
-h2,
-h3 {
-  color: var(--text-color);
-  transition: color var(--transition-duration) var(--transition-ease);
-}
-
-a {
-  color: var(--secondary-color);
-  transition: color var(--transition-duration) var(--transition-ease);
-}
-
-a:hover {
-  color: var(--highlight-color);
-}
-
-/* Font sizes */
-h2 {
-  font-size: var(--heading-font-size);
-}
-
-p {
-  font-size: var(--paragraph-font-size);
-  font-weight: var(--paragraph-weight);
-}
-
-small {
-  font-size: var(--small-font-size);
-}
-
-/* Sections, cards, and buttons */
-.card {
-  padding: var(--card-padding);
-  border-radius: var(--border-radius);
-  box-shadow: var(--box-shadow);
-  transition: box-shadow var(--transition-duration) var(--transition-ease);
-}
-
-.card:hover {
-  box-shadow: var(--box-shadow-hover);
-}
-
-button {
-  padding: var(--button-padding);
-  background-color: var(--secondary-color);
-  color: var(--button-text-color);
-  border-radius: var(--border-radius);
-  transition: background-color var(--transition-duration) var(--transition-ease);
-  cursor: pointer;
-  border: none;
-}
-
-button:hover {
-  background-color: var(--highlight-color);
-  color: var(--button-hover-text-color);
-}
-
-/* Flexbox layout */
 main {
-  flex: 1;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  min-height: 75vh;
-  transition: background-color var(--transition-duration) var(--transition-ease);
 }
 
-.no-blogs-found,
-.no-projects-found {
-  text-align: center;
-  font-size: var(--paragraph-font-size);
-  color: var(--text-color);
-  margin: auto;
-  margin-top: 50px;
+/* =========================================================
+   Glass surfaces + helpers
+   ========================================================= */
+.glass {
+  background: var(--surface-glass);
+  /* Safari uses -webkit-backdrop-filter */
+  -webkit-backdrop-filter: blur(var(--blur-xl));
+  backdrop-filter: blur(var(--blur-xl));
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-soft);
+  transition: transform var(--transition-fast),
+    box-shadow var(--transition-fast), border-color var(--transition-fast);
 }
 
-/* Responsive styles for small screens (mobile) */
-@media (max-width: 768px) {
-  :root {
-    --heading-font-size: var(--heading-font-size-sm);
-    --subheading-font-size: var(--subheading-font-size-sm);
-    --paragraph-font-size: var(--paragraph-font-size-sm);
-    --small-font-size: var(--small-font-size-sm);
+/* Hover/Focus lift + border refinement
+   Fallback first for older Safari (no color-mix) */
+.glass:hover,
+.glass:focus-within {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-hover);
+  border-color: rgba(255, 255, 255, 0.35); /* fallback */
+}
+/* Nicer border where color-mix is supported */
+@supports (color: color-mix(in srgb, white 50%, black 50%)) {
+  .glass:hover,
+  .glass:focus-within {
+    border-color: color-mix(in srgb, var(--border-glass) 60%, white 40%);
+  }
+}
+
+/* Stronger surface for interactive elements on glass */
+.btn-glass {
+  background: var(--surface-glass-strong);
+  border: 1px solid var(--border-glass);
+  -webkit-backdrop-filter: blur(calc(var(--blur-xl) * 0.8));
+  backdrop-filter: blur(calc(var(--blur-xl) * 0.8));
+}
+
+/* Subtle elevated inner highlight for cards/modals */
+.glass-elevated {
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.06) inset, var(--shadow-soft);
+}
+
+/* No-backdrop fallback (older Safari / perf-constrained) */
+@supports not (
+  (-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))
+) {
+  .glass,
+  .modal-content,
+  .btn-glass {
+    background: rgba(255, 255, 255, 0.85);
+    border-color: rgba(0, 0, 0, 0.08);
+    /* light/dark tweaks via theme attribute */
+  }
+  :root[data-bs-theme="dark"] .glass,
+  :root[data-bs-theme="dark"] .modal-content,
+  :root[data-bs-theme="dark"] .btn-glass {
+    background: rgba(17, 24, 39, 0.85);
+    border-color: rgba(255, 255, 255, 0.12);
+  }
+}
+
+/* =========================================================
+   Component tuning (Navbar, Buttons, Forms, Modals, Progress)
+   ========================================================= */
+
+/* Navbar on glass */
+.navbar.glass {
+  --bs-navbar-color: var(--text-primary);
+  --bs-navbar-brand-color: var(--text-primary);
+  --bs-navbar-toggler-border-color: var(--border-glass);
+
+  /* fallback hover color */
+  --bs-navbar-hover-color: var(--brand);
+}
+@supports (color: color-mix(in srgb, white 50%, black 50%)) {
+  .navbar.glass {
+    --bs-navbar-hover-color: color-mix(
+      in srgb,
+      var(--text-primary) 80%,
+      var(--brand) 20%
+    );
+  }
+}
+
+/* Buttons mapped to brand (fallbacks first) */
+.btn-primary {
+  --bs-btn-bg: var(--brand);
+  --bs-btn-border-color: rgba(0, 0, 0, 0.2);
+  --bs-btn-hover-bg: rgba(139, 92, 246, 0.92); /* lighten */
+  --bs-btn-active-bg: rgba(107, 70, 193, 1); /* darken */
+}
+@supports (color: color-mix(in srgb, white 50%, black 50%)) {
+  .btn-primary {
+    --bs-btn-border-color: color-mix(in srgb, var(--brand) 90%, black 10%);
+    --bs-btn-hover-bg: color-mix(in srgb, var(--brand) 85%, white 15%);
+    --bs-btn-active-bg: color-mix(in srgb, var(--brand) 80%, black 20%);
+  }
+}
+
+/* Forms on glass */
+.form-control,
+.form-select,
+.form-check-input {
+  background-color: color-mix(
+    in srgb,
+    var(--surface-glass) 65%,
+    transparent 35%
+  );
+  border-color: var(--border-glass);
+  color: var(--text-primary);
+}
+@supports not (color: color-mix(in srgb, white 50%, black 50%)) {
+  /* Safari fallback for the color-mix above */
+  .form-control,
+  .form-select,
+  .form-check-input {
+    background-color: rgba(255, 255, 255, 0.16);
+  }
+}
+.form-control::placeholder {
+  color: var(--text-muted);
+}
+
+/* Modal content on glass */
+.modal-content {
+  background: var(--surface-glass);
+  border: 1px solid var(--border-glass);
+  -webkit-backdrop-filter: blur(var(--blur-xl));
+  backdrop-filter: blur(var(--blur-xl));
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-soft);
+}
+
+/* Progress bars look nicer on glass */
+.progress.glass {
+  background: color-mix(in srgb, var(--surface-glass) 70%, transparent 30%);
+  border: 1px solid var(--border-glass);
+  border-radius: 999rem;
+  overflow: hidden;
+}
+@supports not (color: color-mix(in srgb, white 50%, black 50%)) {
+  .progress.glass {
+    background: rgba(255, 255, 255, 0.16);
+  }
+}
+
+/* Badges as rounded pills */
+.badge {
+  border-radius: 999rem;
+  padding: 0.5rem 0.75rem;
+}
+
+/* Images inside cards */
+.object-fit-cover {
+  object-fit: cover;
+}
+
+/* Focus ring (keyboard) */
+:where(a, button, .btn, [tabindex]):focus-visible {
+  outline: 2px solid #9b7df8; /* static, Safari-safe */
+  outline-offset: 2px;
+  border-radius: calc(var(--radius-xl) - 4px);
+}
+
+/* Motion hints */
+.glass,
+.btn,
+.nav-link,
+.card {
+  will-change: transform;
+}
+@media (prefers-reduced-motion: reduce) {
+  .glass,
+  .btn,
+  .nav-link,
+  .card {
+    transition: none;
+    will-change: auto;
   }
 }

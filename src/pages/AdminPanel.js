@@ -4,47 +4,43 @@ import { useData } from "../context/DataContext";
 import { toast } from "react-toastify";
 import { deleteDoc, doc } from "firebase/firestore";
 import { db } from "../firebase";
-import "../styles/AdminPanel.css";
 import { useState } from "react";
 
 const AdminPanel = () => {
   const { user } = useAuth();
   const { projects, setProjects } = useData();
   const navigate = useNavigate();
-
   const [deleting, setDeleting] = useState(false);
 
-  if (!user)
+  if (!user) {
     return (
-      <p className="admin-message">
-        You need to be logged in to view this page!
-        <br />
-        <NavLink to="/login" className="admin-login-link">
-          Login
-        </NavLink>{" "}
-        Here.
-      </p>
+      <div className="container-xxl py-5">
+        <div className="alert alert-warning glass">
+          You need to be logged in to view this page.
+          <NavLink to="/login" className="ms-2">
+            Login
+          </NavLink>
+        </div>
+      </div>
     );
+  }
 
-  if (projects.length === 0)
+  if (projects.length === 0) {
     return (
-      <p className="admin-message">
-        No projects found! You need to create a project first!
-        <br />
-        <Link to="/admin/project/create" className="admin-login-link">
-          Create a Project
-        </Link>{" "}
-        Here.
-      </p>
+      <div className="container-xxl py-5">
+        <div className="alert alert-info glass">
+          No projects found!{" "}
+          <Link to="/admin/project/create">Create a Project</Link>
+        </div>
+      </div>
     );
+  }
 
   const handleDeleteProject = async (projectId) => {
     setDeleting(true);
     try {
       await deleteDoc(doc(db, "projects", projectId));
-      setProjects((projects) =>
-        projects.filter((project) => project.id !== projectId)
-      );
+      setProjects((p) => p.filter((proj) => proj.id !== projectId));
       toast.success("Project deleted successfully!");
       navigate("/admin");
     } catch (err) {
@@ -55,57 +51,51 @@ const AdminPanel = () => {
   };
 
   return (
-    <div className="admin-panel">
-      <h2>Admin Panel</h2>
-
-      <div className="admin-panel-container">
-        <div className="create-project-div">
-          <Link to="/admin/project/create" className="admin-add-link">
-            <button type="button" className="btn btn-primary admin-add-btn">
-              Add Project
-            </button>
+    <section className="container-xxl py-5">
+      <div className="card glass p-4">
+        <h2 className="h4 mb-4">Admin Panel</h2>
+        <div className="d-flex gap-3 mb-4">
+          <Link to="/admin/project/create" className="btn btn-primary btn-glass">
+            Add Project
           </Link>
-
-          <Link to="/admin/blog/create" className="admin-add-link">
-            <button type="button" className="btn btn-primary admin-add-btn">
-              Add Blog
-            </button>
+          <Link to="/admin/blog/create" className="btn btn-primary btn-glass">
+            Add Blog
           </Link>
         </div>
 
-        <div className="admin-table-wrapper">
-          <table className="admin-table">
+        <div className="table-responsive">
+          <table className="table align-middle mb-0 glass">
             <thead>
               <tr>
                 <th>Project Title</th>
-                <th>Actions</th>
+                <th style={{ width: "160px" }}>Actions</th>
               </tr>
             </thead>
             <tbody>
               {projects.map((project) => (
-                <tr key={project.id} className="admin-table-row">
+                <tr key={project.id}>
                   <td>
-                    <Link
-                      to={`/project/${project.id}`}
-                      className="admin-project-link"
-                    >
+                    <Link to={`/project/${project.id}`} className="text-decoration-none">
                       {project.title}
                     </Link>
                   </td>
-                  <td className="admin-actions-cell">
-                    <Link
-                      to={`/admin/project/edit/${project.id}`}
-                      className="btn btn-secondary admin-edit-btn"
-                    >
-                      Edit
-                    </Link>
-                    <button
-                      type="button"
-                      className="btn btn-danger admin-delete-btn"
-                      onClick={() => handleDeleteProject(project.id)}
-                    >
-                      {deleting ? "Deleting..." : "Delete"}
-                    </button>
+                  <td>
+                    <div className="d-flex gap-2">
+                      <Link
+                        to={`/admin/project/edit/${project.id}`}
+                        className="btn btn-sm btn-secondary"
+                      >
+                        Edit
+                      </Link>
+                      <button
+                        type="button"
+                        className="btn btn-sm btn-danger"
+                        onClick={() => handleDeleteProject(project.id)}
+                        disabled={deleting}
+                      >
+                        {deleting ? "Deleting..." : "Delete"}
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}
@@ -113,7 +103,7 @@ const AdminPanel = () => {
           </table>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

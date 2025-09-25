@@ -4,11 +4,9 @@ import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { CiLogout } from "react-icons/ci";
-import "../styles/Logout.css";
 
 const Lougout = () => {
   const { user, setUser } = useAuth();
-
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -18,14 +16,18 @@ const Lougout = () => {
     navigate("/");
   };
 
+  if (!user) return null;
+
   return (
-    <>
-      {user ? (
-        <li onClick={handleLogout} className="logout-button">
-          <CiLogout /> Logout
-        </li>
-      ) : null}
-    </>
+    <button
+      type="button"
+      className="btn btn-sm btn-glass d-flex align-items-center gap-2"
+      onClick={handleLogout}
+      aria-label="Logout"
+      title="Logout"
+    >
+      <CiLogout aria-hidden /> Logout
+    </button>
   );
 };
 

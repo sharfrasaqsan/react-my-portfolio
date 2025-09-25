@@ -1,138 +1,127 @@
-import { useState, useEffect } from "react";
-import "../styles/Header.css";
+import { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { FiSun, FiMoon, FiMenu, FiX } from "react-icons/fi";
+import { FiSun, FiMoon } from "react-icons/fi";
 import Lougout from "./Lougout";
 import { useAuth } from "../context/AuthContext";
 
 const Header = () => {
   const { user } = useAuth();
 
-  const [isDarkMode, setIsDarkMode] = useState(() => {
-    return localStorage.getItem("darkMode") === "true";
-  });
-  const [menuOpen, setMenuOpen] = useState(false);
+  // Read initial theme from <html data-bs-theme> or localStorage
+  const initial =
+    typeof document !== "undefined"
+      ? document.documentElement.getAttribute("data-bs-theme") ||
+        localStorage.getItem("theme") ||
+        "light"
+      : "light";
+
+  const [theme, setTheme] = useState(initial);
 
   useEffect(() => {
-    document.body.classList.toggle("dark-mode", isDarkMode);
-    localStorage.setItem("darkMode", isDarkMode);
-  }, [isDarkMode]);
-
-  const toggleDarkMode = () => {
-    setIsDarkMode((prevMode) => !prevMode);
-  };
-
-  const toggleMenu = () => {
-    setMenuOpen(!menuOpen);
-  };
+    document.documentElement.setAttribute("data-bs-theme", theme);
+    localStorage.setItem("theme", theme);
+  }, [theme]);
 
   return (
-    <header className="header-container">
-      <div className="header-logo">
-        <Link to="/" className="header-brand">
+    <header className="py-2 sticky-top z-index-header">
+      <nav className="navbar navbar-expand-lg glass container-xxl px-3 py-2">
+        <Link className="navbar-brand fw-semibold" to="/">
           Mohamed Sharfiras
         </Link>
-      </div>
-      <div className={`header-nav ${menuOpen ? "active" : ""}`}>
-        <ul className="nav-links">
-          <li>
-            <NavLink
-              to="/"
-              onClick={() => setMenuOpen(false)}
-              className={({ isActive }) => (isActive ? "active-link" : "")}
-            >
-              Home
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/about"
-              onClick={() => setMenuOpen(false)}
-              className={({ isActive }) => (isActive ? "active-link" : "")}
-            >
-              About
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/skills"
-              onClick={() => setMenuOpen(false)}
-              className={({ isActive }) => (isActive ? "active-link" : "")}
-            >
-              Skills
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/projects"
-              onClick={() => setMenuOpen(false)}
-              className={({ isActive }) => (isActive ? "active-link" : "")}
-            >
-              Projects
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/blogs"
-              onClick={() => setMenuOpen(false)}
-              className={({ isActive }) => (isActive ? "active-link" : "")}
-            >
-              Blogs
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/contact"
-              onClick={() => setMenuOpen(false)}
-              className={({ isActive }) => (isActive ? "active-link" : "")}
-            >
-              Contact
-            </NavLink>
-          </li>
 
-          <li>
-            <NavLink
-              to="/admin"
-              onClick={() => setMenuOpen(false)}
-              className={({ isActive }) => (isActive ? "active-link" : "")}
-            >
-              Admin Panel
-            </NavLink>
-          </li>
-
-          {!user ? (
-            <li>
-              <NavLink
-                to="/login"
-                onClick={() => setMenuOpen(false)}
-                className={({ isActive }) => (isActive ? "active-link" : "")}
-              >
-                Admin Login
-              </NavLink>
-            </li>
-          ) : null}
-          <li>
-            <Lougout />
-          </li>
-        </ul>
-      </div>
-
-      <div className="theme-toggle">
-        <button className="toggle-button" onClick={toggleDarkMode}>
-          {isDarkMode ? <FiMoon size={24} /> : <FiSun size={24} />}
-        </button>
-      </div>
-
-      {/* Mobile menu toggle button */}
-      <div className="mobile-menu-toggle">
         <button
-          className="menu-button"
-          onClick={toggleMenu}
-          aria-label="Toggle navigation menu"
+          className="navbar-toggler btn-glass"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#mainNav"
+          aria-controls="mainNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
         >
-          {menuOpen ? <FiX size={30} /> : <FiMenu size={30} />}
+          <span className="navbar-toggler-icon" />
         </button>
-      </div>
+
+        <div className="collapse navbar-collapse" id="mainNav">
+          <ul className="navbar-nav ms-auto align-items-lg-center gap-lg-1">
+            {[
+              { to: "/", label: "Home" },
+              { to: "/about", label: "About" },
+              { to: "/skills", label: "Skills" },
+              { to: "/projects", label: "Projects" },
+              { to: "/blogs", label: "Blogs" },
+              { to: "/contact", label: "Contact" },
+              { to: "/admin", label: "Admin Panel" },
+            ].map(({ to, label }) => (
+              <li className="nav-item" key={to}>
+                <NavLink
+                  to={to}
+                  className={({ isActive }) =>
+                    "nav-link" + (isActive ? " active fw-semibold" : "")
+                  }
+                  aria-current={({ isActive }) =>
+                    isActive ? "page" : undefined
+                  }
+                >
+                  {label}
+                </NavLink>
+              </li>
+            ))}
+
+            {!user && (
+              <li className="nav-item">
+                <NavLink
+                  to="/login"
+                  className={({ isActive }) =>
+                    "nav-link" + (isActive ? " active fw-semibold" : "")
+                  }
+                >
+                  Admin Login
+                </NavLink>
+              </li>
+            )}
+
+            {/* Logout as a nav item */}
+            <li className="nav-item">
+              <Lougout />
+            </li>
+
+            {/* Theme toggle */}
+            <li className="nav-item ms-lg-2">
+              <div className="d-flex align-items-center gap-2">
+                <span className="d-none d-lg-inline small">Theme</span>
+                <div
+                  className="input-group input-group-sm"
+                  role="group"
+                  aria-label="Theme toggle"
+                >
+                  <button
+                    className={
+                      "btn btn-glass" + (theme === "light" ? " active" : "")
+                    }
+                    onClick={() => setTheme("light")}
+                    type="button"
+                    aria-pressed={theme === "light"}
+                    title="Light"
+                  >
+                    <FiSun aria-hidden />
+                  </button>
+                  <button
+                    className={
+                      "btn btn-glass" + (theme === "dark" ? " active" : "")
+                    }
+                    onClick={() => setTheme("dark")}
+                    type="button"
+                    aria-pressed={theme === "dark"}
+                    title="Dark"
+                  >
+                    <FiMoon aria-hidden />
+                  </button>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </nav>
     </header>
   );
 };

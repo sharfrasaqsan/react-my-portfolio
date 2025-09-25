@@ -1,23 +1,11 @@
 import React, { useState } from "react";
-import "../styles/Contact.css";
 
 const Contact = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
-
+  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
   const [formErrors, setFormErrors] = useState({});
   const [successMessage, setSuccessMessage] = useState("");
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
+  const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const validateForm = () => {
     const errors = {};
@@ -30,23 +18,14 @@ const Contact = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Validate the form before submitting
-    if (!validateForm()) {
-      return; // Exit if validation fails
-    }
+    if (!validateForm()) return;
 
     try {
-      const response = await fetch(
-        "https://node-portfolio-contact-server.vercel.app/send",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
-        }
-      );
+      const response = await fetch("https://node-portfolio-contact-server.vercel.app/send", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
       const data = await response.json();
       if (response.ok) {
         setSuccessMessage("Your message has been sent successfully!");
@@ -54,58 +33,64 @@ const Contact = () => {
       } else {
         console.error("Error:", data);
       }
-    } catch (error) {
-      console.error("Error sending message:", error);
+    } catch (err) {
+      console.error("Error sending message:", err);
     }
   };
 
   return (
-    <div className="contact-container">
-      <h2>Contact Me</h2>
-      <form className="contact-form" onSubmit={handleSubmit}>
-        <label htmlFor="name">Name:</label>
-        <input
-          type="text"
-          id="name"
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
-          className={formErrors.name ? "input-error" : ""}
-        />
-        {formErrors.name && (
-          <span className="error-message">{formErrors.name}</span>
-        )}
+    <section className="container-xxl py-5">
+      <div className="card glass p-4 p-md-5">
+        <h2 className="h4 mb-4">Contact Me</h2>
+        <form className="row g-3" onSubmit={handleSubmit} noValidate>
+          <div className="col-12">
+            <label htmlFor="name" className="form-label">Name</label>
+            <input
+              id="name"
+              type="text"
+              name="name"
+              className={`form-control ${formErrors.name ? "is-invalid" : ""}`}
+              value={formData.name}
+              onChange={handleChange}
+            />
+            {formErrors.name && <div className="invalid-feedback">{formErrors.name}</div>}
+          </div>
 
-        <label htmlFor="email">Email:</label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          className={formErrors.email ? "input-error" : ""}
-        />
-        {formErrors.email && (
-          <span className="error-message">{formErrors.email}</span>
-        )}
+          <div className="col-12">
+            <label htmlFor="email" className="form-label">Email</label>
+            <input
+              id="email"
+              type="email"
+              name="email"
+              className={`form-control ${formErrors.email ? "is-invalid" : ""}`}
+              value={formData.email}
+              onChange={handleChange}
+            />
+            {formErrors.email && <div className="invalid-feedback">{formErrors.email}</div>}
+          </div>
 
-        <label htmlFor="message">Message:</label>
-        <textarea
-          id="message"
-          name="message"
-          value={formData.message}
-          onChange={handleChange}
-          className={formErrors.message ? "input-error" : ""}
-        />
+          <div className="col-12">
+            <label htmlFor="message" className="form-label">Message</label>
+            <textarea
+              id="message"
+              name="message"
+              rows="5"
+              className={`form-control ${formErrors.message ? "is-invalid" : ""}`}
+              value={formData.message}
+              onChange={handleChange}
+            />
+            {formErrors.message && <div className="invalid-feedback">{formErrors.message}</div>}
+          </div>
 
-        {formErrors.message && (
-          <span className="error-message">{formErrors.message}</span>
-        )}
-
-        <button type="submit">Send Message</button>
-        {successMessage && <p className="success-message">{successMessage}</p>}
-      </form>
-    </div>
+          <div className="col-12">
+            <button className="btn btn-primary btn-glass" type="submit">
+              Send Message
+            </button>
+          </div>
+          {successMessage && <p className="text-success mt-2">{successMessage}</p>}
+        </form>
+      </div>
+    </section>
   );
 };
 

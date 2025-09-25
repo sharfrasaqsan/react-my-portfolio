@@ -1,14 +1,22 @@
 import { Link } from "react-router-dom";
-import "../styles/BlogCard.css";
 
 const BlogCard = ({ blog }) => {
+  if (!blog) return null;
+
   return (
-    <Link to={`/blog/${blog.id}`} className="blog-card-link">
-      <div className="blog-card">
-        <h3>{blog.title}</h3>
-        <p>{blog.content ? blog.content.substring(0, 100) + "..." : ""}</p>
+    <div className="card glass h-100">
+      <div className="card-body p-4">
+        <h3 className="h5 mb-2">{blog.title}</h3>
+        <p className="text-body-secondary mb-0">
+          {blog.content ? blog.content.substring(0, 100) + "..." : ""}
+        </p>
+        <Link
+          to={`/blog/${blog.id}`}
+          className="stretched-link"
+          aria-label={`Open blog ${blog.title}`}
+        />
       </div>
-    </Link>
+    </div>
   );
 };
 

@@ -2,7 +2,7 @@ import ProjectList from "../components/ProjectList";
 
 const Projects = () => {
   return (
-    <section>
+    <section className="container-xxl py-5">
       <ProjectList />
     </section>
   );

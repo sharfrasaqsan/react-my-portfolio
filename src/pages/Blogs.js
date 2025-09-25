@@ -1,22 +1,22 @@
 import { useData } from "../context/DataContext";
 import BlogCard from "../components/BlogCard";
 import Loading from "../utils/Loading";
-import "../styles/Blogs.css";
 
 const Blogs = () => {
   const { blogs, loading } = useData();
 
   if (loading) return <Loading />;
-
   if (blogs.length === 0)
-    return <p className="no-blogs-found">No blogs found!</p>;
+    return <p className="text-center text-body-secondary">No blogs found!</p>;
 
   return (
-    <section className="blogs-section">
-      <h2>Blogs</h2>
-      <div className="blogs-container">
-        {blogs?.map((blog) => (
-          <BlogCard key={blog.id} blog={blog} />
+    <section className="container-xxl py-5">
+      <h2 className="h3 mb-4">Blogs</h2>
+      <div className="row g-4">
+        {blogs.map((blog) => (
+          <div key={blog.id} className="col-12 col-sm-6 col-lg-4">
+            <BlogCard blog={blog} />
+          </div>
         ))}
       </div>
     </section>

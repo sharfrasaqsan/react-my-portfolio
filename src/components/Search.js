@@ -1,23 +1,24 @@
 import { useData } from "../context/DataContext";
-import "../styles/Search.css";
 
 const Search = () => {
   const { search, setSearch } = useData();
 
   return (
-    <div className="search-container">
-      <form className="project-search-form">
+    <form className="d-inline-block" role="search" onSubmit={(e) => e.preventDefault()}>
+      <div className="input-group input-group-sm glass p-1">
         <input
           type="text"
+          className="form-control bg-transparent border-0"
           placeholder="Search projects..."
           name="search"
           id="search"
           autoComplete="off"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
+          aria-label="Search projects"
         />
-      </form>
-    </div>
+      </div>
+    </form>
   );
 };
 

@@ -5,16 +5,13 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "../firebase";
 import { doc, getDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
-import "../styles/Login.css";
 
 const Login = () => {
   const { setUser } = useAuth();
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [formErrors, setFormErrors] = useState({});
   const [loading, setLoading] = useState(false);
-
   const navigate = useNavigate();
 
   const validateForm = () => {
@@ -27,9 +24,7 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
     if (!validateForm()) return;
-
     setLoading(true);
     try {
       const userCredentials = await signInWithEmailAndPassword(
@@ -38,13 +33,11 @@ const Login = () => {
         password
       );
       const user = userCredentials.user;
-
       const res = await getDoc(doc(db, "admin", user.uid));
       if (!res.exists()) {
         toast.error("User not found");
         return;
       }
-
       setUser(res.data());
       setEmail("");
       setPassword("");
@@ -59,37 +52,56 @@ const Login = () => {
   };
 
   return (
-    <section className="login-container">
-      <h2>Admin Login</h2>
-      <form className="login-form" onSubmit={handleLogin}>
-        <label htmlFor="email">Email</label>
-        <input
-          type="text"
-          name="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className={formErrors.email ? "input-error" : ""}
-        />
-        {formErrors.email && (
-          <span className="error-message">{formErrors.email}</span>
-        )}
-
-        <label htmlFor="password">Password</label>
-        <input
-          type="password"
-          name="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className={formErrors.password ? "input-error" : ""}
-        />
-        {formErrors.password && (
-          <span className="error-message">{formErrors.password}</span>
-        )}
-
-        <button type="submit" disabled={loading}>
-          {loading ? "Logging in..." : "Login"}
-        </button>
-      </form>
+    <section className="container-xxl py-5">
+      <div
+        className="card glass p-4 p-md-5 mx-auto"
+        style={{ maxWidth: "480px" }}
+      >
+        <h2 className="h4 mb-4 text-center">Admin Login</h2>
+        <form className="row g-3" onSubmit={handleLogin} noValidate>
+          <div className="col-12">
+            <label htmlFor="email" className="form-label">
+              Email
+            </label>
+            <input
+              id="email"
+              type="text"
+              className={`form-control ${formErrors.email ? "is-invalid" : ""}`}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            {formErrors.email && (
+              <div className="invalid-feedback">{formErrors.email}</div>
+            )}
+          </div>
+          <div className="col-12">
+            <label htmlFor="password" className="form-label">
+              Password
+            </label>
+            <input
+              id="password"
+              type="password"
+              className={`form-control ${
+                formErrors.password ? "is-invalid" : ""
+              }`}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            {formErrors.password && (
+              <div className="invalid-feedback">{formErrors.password}</div>
+            )}
+          </div>
+          <div className="col-12">
+            <button
+              className="btn btn-primary btn-glass w-100"
+              type="submit"
+              disabled={loading}
+            >
+              {loading ? "Logging in..." : "Login"}
+            </button>
+          </div>
+        </form>
+      </div>
     </section>
   );
 };

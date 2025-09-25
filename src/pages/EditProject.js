@@ -5,7 +5,6 @@ import { format } from "date-fns";
 import { toast } from "react-toastify";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
-import "../styles/EditProject.css";
 
 const EditProject = () => {
   const { editProject, setEditProject, projects, setProjects, loading } =
@@ -143,116 +142,140 @@ const EditProject = () => {
   };
 
   return (
-    <section className="edit-project-section">
-      <div className="edit-project-container">
-        <h2>Edit Project</h2>
+    <section className="container-xxl py-5">
+      <div className="card glass p-4 p-md-5">
+        <h2 className="h4 mb-4">Edit Project</h2>
         <form
+          className="row g-3"
           onSubmit={(e) => {
             e.preventDefault();
             handleEditProject(id);
           }}
         >
-          <label htmlFor="title">Title</label>
-          <input
-            type="text"
-            id="title"
-            name="title"
-            value={editProject.title}
-            onChange={handleOnchange}
-            required
-            autoFocus
-            autoComplete="off"
-            placeholder="Enter project title"
-          />
-
-          <label htmlFor="shortDescription">Short Description</label>
-          <textarea
-            id="shortDescription"
-            name="shortDescription"
-            required
-            placeholder="Enter short description"
-            value={editProject.shortDescription}
-            onChange={handleOnchange}
-            autoComplete="off"
-            rows="5"
-          />
-
-          <label htmlFor="description">Description</label>
-          <textarea
-            id="description"
-            name="description"
-            required
-            placeholder="Enter project description"
-            value={editProject.description}
-            onChange={handleOnchange}
-            autoComplete="off"
-            rows="20"
-          />
-
-          <label htmlFor="technologies">Technologies</label>
-          <input
-            type="text"
-            id="technologies"
-            name="technologies"
-            required
-            autoComplete="off"
-            placeholder="e.g., React, Firebase, Tailwind"
-            value={editProject.technologies.join(", ")}
-            onChange={handleOnchange}
-          />
-
-          <label htmlFor="screenshot">Screenshot</label>
-          <input
-            type="file"
-            id="screenshot"
-            name="screenshot"
-            accept="image/*"
-            autoComplete="off"
-            onChange={handleOnchange}
-          />
-
-          {/* Image Preview */}
-          {editProject.screenshot && (
-            <img
-              src={
-                typeof editProject.screenshot === "object"
-                  ? URL.createObjectURL(editProject.screenshot)
-                  : editProject.screenshot
-              }
-              alt="Preview"
-              style={{ width: "200px", marginTop: "1rem" }}
+          <div className="col-12">
+            <label htmlFor="title" className="form-label">
+              Title
+            </label>
+            <input
+              id="title"
+              name="title"
+              type="text"
+              className="form-control"
+              value={editProject.title}
+              onChange={handleOnchange}
+              required
+              autoFocus
             />
-          )}
-
-          <label htmlFor="liveLink">Live Link</label>
-          <input
-            type="url"
-            id="liveLink"
-            name="liveLink"
-            autoComplete="off"
-            placeholder="Enter live URL"
-            value={editProject.liveLink}
-            onChange={handleOnchange}
-          />
-
-          <label htmlFor="repoLink">Repository Link</label>
-          <input
-            type="url"
-            id="repoLink"
-            name="repoLink"
-            autoComplete="off"
-            placeholder="Enter GitHub repo URL"
-            value={editProject.repoLink}
-            onChange={handleOnchange}
-          />
-
-          <button type="submit" disabled={updating}>
-            {updating ? "Updating..." : "Update Project"}
-          </button>
-
-          <button type="button" onClick={() => cencelEdit()}>
-            Cencel
-          </button>
+          </div>
+          <div className="col-12">
+            <label htmlFor="shortDescription" className="form-label">
+              Short Description
+            </label>
+            <textarea
+              id="shortDescription"
+              name="shortDescription"
+              rows="3"
+              className="form-control"
+              value={editProject.shortDescription}
+              onChange={handleOnchange}
+              required
+            />
+          </div>
+          <div className="col-12">
+            <label htmlFor="description" className="form-label">
+              Description
+            </label>
+            <textarea
+              id="description"
+              name="description"
+              rows="10"
+              className="form-control"
+              value={editProject.description}
+              onChange={handleOnchange}
+              required
+            />
+          </div>
+          <div className="col-12">
+            <label htmlFor="technologies" className="form-label">
+              Technologies
+            </label>
+            <input
+              id="technologies"
+              name="technologies"
+              type="text"
+              className="form-control"
+              value={editProject.technologies.join(", ")}
+              onChange={handleOnchange}
+              required
+            />
+          </div>
+          <div className="col-12">
+            <label htmlFor="screenshot" className="form-label">
+              Screenshot
+            </label>
+            <input
+              id="screenshot"
+              name="screenshot"
+              type="file"
+              accept="image/*"
+              className="form-control"
+              onChange={handleOnchange}
+            />
+            {editProject.screenshot && (
+              <img
+                src={
+                  typeof editProject.screenshot === "object"
+                    ? URL.createObjectURL(editProject.screenshot)
+                    : editProject.screenshot
+                }
+                alt="Preview"
+                className="img-fluid rounded mt-3"
+                style={{ maxWidth: "300px" }}
+              />
+            )}
+          </div>
+          <div className="col-12 col-md-6">
+            <label htmlFor="liveLink" className="form-label">
+              Live Link
+            </label>
+            <input
+              id="liveLink"
+              name="liveLink"
+              type="url"
+              className="form-control"
+              value={editProject.liveLink}
+              onChange={handleOnchange}
+            />
+          </div>
+          <div className="col-12 col-md-6">
+            <label htmlFor="repoLink" className="form-label">
+              Repository Link
+            </label>
+            <input
+              id="repoLink"
+              name="repoLink"
+              type="url"
+              className="form-control"
+              value={editProject.repoLink}
+              onChange={handleOnchange}
+            />
+          </div>
+          <div className="col-12 d-flex gap-2">
+            <button
+              className="btn btn-primary btn-glass"
+              type="submit"
+              disabled={updating}
+            >
+              {updating ? "Updating..." : "Update Project"}
+            </button>
+            <button
+              className="btn btn-outline-light btn-glass"
+              type="button"
+              onClick={cencelEdit}
+            >
+              Cancel
+            </button>
+          </div>
         </form>
       </div>
     </section>

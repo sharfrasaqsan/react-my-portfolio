@@ -1,186 +1,90 @@
-import "../styles/Skills.css";
-
 const Skills = () => {
   return (
-    <section className="skills-container">
-      <h2>Skills Overview</h2>
+    <section className="container-xxl py-5">
+      <div className="card glass p-4 p-md-5">
+        <h2 className="h4 mb-4">Skills Overview</h2>
 
-      <div className="skills-categories">
-        {/* Frontend Skills */}
-        <div className="skills-category">
-          <h3>Frontend</h3>
-          <div className="skill">
-            <span>HTML</span>
-            <div className="progress-bar">
-              <div className="progress" style={{ width: "95%" }}>
-                95%
+        <div className="row g-4">
+          <div className="col-md-6">
+            <h5>Frontend</h5>
+            {[
+              { name: "HTML", value: 95 },
+              { name: "CSS", value: 90 },
+              { name: "JavaScript", value: 85 },
+              { name: "React", value: 80 },
+            ].map((s, i) => (
+              <div key={i} className="mb-3">
+                <span className="d-block small fw-semibold">{s.name}</span>
+                <div className="progress glass" style={{ height: "8px" }}>
+                  <div
+                    className="progress-bar bg-primary"
+                    style={{ width: `${s.value}%` }}
+                  />
+                </div>
               </div>
-            </div>
+            ))}
           </div>
-          <div className="skill">
-            <span>CSS</span>
-            <div className="progress-bar">
-              <div className="progress" style={{ width: "90%" }}>
-                90%
+
+          <div className="col-md-6">
+            <h5>Backend</h5>
+            {[
+              { name: "Node.js", value: 50 },
+              { name: "Express", value: 50 },
+              { name: "MongoDB", value: 50 },
+              { name: "MySQL", value: 75 },
+            ].map((s, i) => (
+              <div key={i} className="mb-3">
+                <span className="d-block small fw-semibold">{s.name}</span>
+                <div className="progress glass" style={{ height: "8px" }}>
+                  <div
+                    className="progress-bar bg-success"
+                    style={{ width: `${s.value}%` }}
+                  />
+                </div>
               </div>
-            </div>
-          </div>
-          <div className="skill">
-            <span>JavaScript</span>
-            <div className="progress-bar">
-              <div className="progress" style={{ width: "85%" }}>
-                85%
-              </div>
-            </div>
-          </div>
-          <div className="skill">
-            <span>React</span>
-            <div className="progress-bar">
-              <div className="progress" style={{ width: "80%" }}>
-                80%
-              </div>
-            </div>
+            ))}
           </div>
         </div>
 
-        {/* Backend Skills */}
-        <div className="skills-category">
-          <h3>Backend</h3>
-          <div className="skill">
-            <span>Node.js</span>
-            <div className="progress-bar">
-              <div className="progress" style={{ width: "50%" }}>
-                50%
-              </div>
-            </div>
-          </div>
-          <div className="skill">
-            <span>Express</span>
-            <div className="progress-bar">
-              <div className="progress" style={{ width: "50%" }}>
-                50%
-              </div>
-            </div>
-          </div>
-          <div className="skill">
-            <span>MongoDB</span>
-            <div className="progress-bar">
-              <div className="progress" style={{ width: "50%" }}>
-                50%
-              </div>
-            </div>
-          </div>
-          <div className="skill">
-            <span>MySQL</span>
-            <div className="progress-bar">
-              <div className="progress" style={{ width: "75%" }}>
-                75%
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Tools/Frameworks */}
-        <div className="skills-category">
-          <h3>Tools & Frameworks</h3>
-          <div className="skill">
-            <span>WordPress</span>
-            <div className="progress-bar">
-              <div className="progress" style={{ width: "85%" }}>
-                85%
-              </div>
-            </div>
-          </div>
-          <div className="skill">
-            <span>Magento 2</span>
-            <div className="progress-bar">
-              <div className="progress" style={{ width: "70%" }}>
-                70%
-              </div>
-            </div>
-          </div>
-          <div className="skill">
-            <span>Git</span>
-            <div className="progress-bar">
-              <div className="progress" style={{ width: "80%" }}>
-                80%
-              </div>
-            </div>
-          </div>
-          <div className="skill">
-            <span>Firebase</span>
-            <div className="progress-bar">
-              <div className="progress" style={{ width: "85%" }}>
-                75%
-              </div>
-            </div>
-          </div>
-          <div className="skill">
-            <span>Adobe Tools</span>
-            <div className="progress-bar">
-              <div className="progress" style={{ width: "60%" }}>
-                60%
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Soft Skills */}
-        <div className="skills-category">
-          <h3>Soft Skills</h3>
-          <div className="skill">
-            <span>Communication & Team Collaboration</span>
-            <div className="progress-bar">
-              <div className="progress" style={{ width: "90%" }}>
-                90%
-              </div>
-            </div>
-          </div>
-          <div className="skill">
-            <span>Problem-Solving</span>
-            <div className="progress-bar">
-              <div className="progress" style={{ width: "80%" }}>
-                80%
-              </div>
-            </div>
-          </div>
-          <div className="skill">
-            <span>Adaptability</span>
-            <div className="progress-bar">
-              <div className="progress" style={{ width: "75%" }}>
-                75%
-              </div>
-            </div>
-          </div>
-          <div className="skill">
-            <span>Time Management</span>
-            <div className="progress-bar">
-              <div className="progress" style={{ width: "80%" }}>
-                80%
-              </div>
-            </div>
-          </div>
-          <div className="skill">
-            <span>Multitasking</span>
-            <div className="progress-bar">
-              <div className="progress" style={{ width: "75%" }}>
-                75%
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Certifications Section */}
-      <div className="certifications">
-        <h3>Certifications</h3>
-        <ul>
-          <li>Introduction to Front-End Development - Coursera - 2023</li>
-          <li>
-            Web Design for Beginners - Faculty of Information Technology,
-            University of Moratuwa - 2022
-          </li>
+        <h5 className="mt-4">Tools & Frameworks</h5>
+        <ul className="list-inline">
+          {["WordPress", "Magento 2", "Git", "Firebase", "Adobe Tools"].map(
+            (tool, idx) => (
+              <li
+                key={idx}
+                className="badge bg-primary-subtle text-primary-emphasis me-2 mb-2"
+              >
+                {tool}
+              </li>
+            )
+          )}
         </ul>
+
+        <h5 className="mt-4">Soft Skills</h5>
+        <ul className="list-inline">
+          {[
+            "Communication",
+            "Problem-Solving",
+            "Adaptability",
+            "Time Management",
+            "Multitasking",
+          ].map((soft, idx) => (
+            <li
+              key={idx}
+              className="badge bg-secondary-subtle text-dark-emphasis me-2 mb-2"
+            >
+              {soft}
+            </li>
+          ))}
+        </ul>
+
+        <div className="mt-4">
+          <h5>Certifications</h5>
+          <ul>
+            <li>Introduction to Front-End Development - Coursera - 2023</li>
+            <li>Web Design for Beginners - University of Moratuwa - 2022</li>
+          </ul>
+        </div>
       </div>
     </section>
   );

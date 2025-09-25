@@ -1,4 +1,3 @@
-import "../styles/ProjectList.css";
 import ProjectCard from "./ProjectCard";
 import { useData } from "../context/DataContext";
 import Loading from "../utils/Loading";
@@ -9,31 +8,37 @@ const ProjectList = () => {
 
   if (loading) return <Loading />;
 
-  if (projects.length === 0)
-    return <p className="no-projects-found">No projects found!</p>;
+  if (projects.length === 0) {
+    return (
+      <div className="container-xxl py-5">
+        <p className="text-center text-body-secondary">No projects found!</p>
+      </div>
+    );
+  }
 
-  const sortedSearchProjects = [...searchedProjects]?.sort(
+  const sorted = [...(searchedProjects || [])].sort(
     (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
   );
 
-  console.log(sortedSearchProjects);
-
   return (
-    <div className="project-list-container">
-      <h2>Projects</h2>
+    <section className="container-xxl py-5">
+      <div className="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3">
+        <h2 className="h3 mb-0">Projects</h2>
+        <Search />
+      </div>
 
-      <Search />
-
-      {sortedSearchProjects && sortedSearchProjects.length > 0 ? (
-        <div className="project-card-container">
-          {sortedSearchProjects.map((project) => (
-            <ProjectCard key={project.id} project={project} />
+      {sorted.length > 0 ? (
+        <div className="row g-4">
+          {sorted.map((project) => (
+            <div key={project.id} className="col-12 col-sm-6 col-lg-4">
+              <ProjectCard project={project} />
+            </div>
           ))}
         </div>
       ) : (
-        <p className="no-projects-found">No projects found!</p>
+        <p className="text-center text-body-secondary mt-5">No projects found!</p>
       )}
-    </div>
+    </section>
   );
 };
 

@@ -6,7 +6,6 @@ import { toast } from "react-toastify";
 import { format } from "date-fns";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
-import "../styles/EditBlog.css";
 
 const EditBlog = () => {
   const { blogs, setBlogs, editBlog, setEditBlog, loading } = useData();
@@ -72,45 +71,61 @@ const EditBlog = () => {
   };
 
   return (
-    <section className="create-blog-section">
-      <div className="create-blog-container">
-        <h2>Edit Blog</h2>
+    <section className="container-xxl py-5">
+      <div className="card glass p-4 p-md-5">
+        <h2 className="h4 mb-4">Edit Blog</h2>
         <form
+          className="row g-3"
           onSubmit={(e) => {
             e.preventDefault();
             handleEditBlog(id);
           }}
         >
-          <label htmlFor="title">Blog Title</label>
-          <input
-            type="text"
-            id="title"
-            name="title"
-            required
-            autoFocus
-            autoComplete="off"
-            value={editBlog.title}
-            onChange={handleOnChange}
-          />
-
-          <label htmlFor="content">Content</label>
-          <textarea
-            id="content"
-            name="content"
-            required
-            autoComplete="off"
-            rows="30"
-            value={editBlog.content}
-            onChange={handleOnChange}
-          />
-
-          <button type="submit" disabled={updating}>
-            {updating ? "Updating..." : "Update Blog"}
-          </button>
-
-          <button type="button" onClick={() => cancelEdit()}>
-            Cencel
-          </button>
+          <div className="col-12">
+            <label htmlFor="title" className="form-label">
+              Blog Title
+            </label>
+            <input
+              id="title"
+              name="title"
+              type="text"
+              className="form-control"
+              value={editBlog.title}
+              onChange={handleOnChange}
+              required
+              autoFocus
+            />
+          </div>
+          <div className="col-12">
+            <label htmlFor="content" className="form-label">
+              Content
+            </label>
+            <textarea
+              id="content"
+              name="content"
+              rows="15"
+              className="form-control"
+              value={editBlog.content}
+              onChange={handleOnChange}
+              required
+            />
+          </div>
+          <div className="col-12 d-flex gap-2">
+            <button
+              className="btn btn-primary btn-glass"
+              type="submit"
+              disabled={updating}
+            >
+              {updating ? "Updating..." : "Update Blog"}
+            </button>
+            <button
+              className="btn btn-outline-light btn-glass"
+              type="button"
+              onClick={cancelEdit}
+            >
+              Cancel
+            </button>
+          </div>
         </form>
       </div>
     </section>

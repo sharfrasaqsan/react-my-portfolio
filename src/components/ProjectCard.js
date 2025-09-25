@@ -1,54 +1,59 @@
-import "../styles/ProjectCard.css";
 import { Link } from "react-router-dom";
 
 const ProjectCard = ({ project }) => {
   if (!project) return null;
 
-  return (
-    <div className="project-card">
-      <img
-        src={project.screenshot || "/fallback.jpg"}
-        alt={`${project.title} Screenshot`}
-        loading="lazy"
-        style={{ objectFit: "cover" }}
-        className="project-card-image"
-      />
-      <div className="project-card-content">
-        <Link to={`/project/${project.id}`} className="project-card-link">
-          <h3 className="project-card-title">{project.title}</h3>
-          <p className="project-card-description">{project.shortDescription}</p>
-          <div className="project-card-technologies">
-            <strong>Tech Stack:</strong> {project.technologies?.join(", ")}
-          </div>
-        </Link>
+  const { id, title, shortDescription, technologies, screenshot, liveLink, repoLink } = project;
 
-        <div className="project-card-buttons">
+  return (
+    <article className="card glass h-100">
+      <div className="ratio ratio-16x9">
+        <img
+          src={screenshot || "/fallback.jpg"}
+          alt={`${title} screenshot`}
+          loading="lazy"
+          className="w-100 h-100 object-fit-cover rounded-top-4"
+        />
+      </div>
+
+      <div className="card-body p-4">
+        <Link to={`/project/${id}`} className="stretched-link text-decoration-none">
+          <h3 className="h5 mb-2">{title}</h3>
+        </Link>
+        <p className="text-body-secondary mb-3">{shortDescription}</p>
+
+        {technologies?.length > 0 && (
+          <div className="d-flex flex-wrap gap-2 mb-3">
+            {technologies.map((t) => (
+              <span className="badge text-bg-primary" key={t}>{t}</span>
+            ))}
+          </div>
+        )}
+
+        <div className="d-flex flex-wrap gap-2">
           <a
-            href={project.liveLink || "#"}
-            className={`project-card-button ${
-              !project.liveLink ? "disabled" : ""
-            }`}
+            href={liveLink || "#"}
+            className={"btn btn-primary btn-glass" + (!liveLink ? " disabled" : "")}
             target="_blank"
             rel="noopener noreferrer"
-            onClick={(e) => !project.liveLink && e.preventDefault()}
+            aria-disabled={!liveLink}
+            onClick={(e) => !liveLink && e.preventDefault()}
           >
             Live Site
           </a>
-
           <a
-            href={project.repoLink || "#"}
-            className={`project-card-button ${
-              !project.repoLink ? "disabled" : ""
-            }`}
+            href={repoLink || "#"}
+            className={"btn btn-outline-light btn-glass" + (!repoLink ? " disabled" : "")}
             target="_blank"
             rel="noopener noreferrer"
-            onClick={(e) => !project.repoLink && e.preventDefault()}
+            aria-disabled={!repoLink}
+            onClick={(e) => !repoLink && e.preventDefault()}
           >
             Source
           </a>
         </div>
       </div>
-    </div>
+    </article>
   );
 };
 
