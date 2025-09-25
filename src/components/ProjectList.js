@@ -23,7 +23,7 @@ const ProjectList = () => {
   return (
     <section className="container-xxl py-5">
       <div className="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3">
-        <h2 className="h3 mb-0">Projects</h2>
+        <h2 className="h3 mb-3">Projects</h2>
         <Search />
       </div>
 
@@ -36,7 +36,9 @@ const ProjectList = () => {
           ))}
         </div>
       ) : (
-        <p className="text-center text-body-secondary mt-5">No projects found!</p>
+        <p className="text-center text-body-secondary mt-5">
+          No projects found!
+        </p>
       )}
     </section>
   );

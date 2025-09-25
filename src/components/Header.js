@@ -88,7 +88,6 @@ const Header = () => {
             {/* Theme toggle */}
             <li className="nav-item ms-lg-2">
               <div className="d-flex align-items-center gap-2">
-                <span className="d-none d-lg-inline small">Theme</span>
                 <div
                   className="input-group input-group-sm"
                   role="group"

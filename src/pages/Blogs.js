@@ -11,7 +11,7 @@ const Blogs = () => {
 
   return (
     <section className="container-xxl py-5">
-      <h2 className="h3 mb-4">Blogs</h2>
+      <h2 className="h3 mb-3">Blogs</h2>
       <div className="row g-4">
         {blogs.map((blog) => (
           <div key={blog.id} className="col-12 col-sm-6 col-lg-4">
