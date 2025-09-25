@@ -1,4 +1,4 @@
-import photo_dp from "../assets/images/DP.png";
+import photo_dp from "../assets/images/DP.webp";
 import resume from "../assets/documents/Resume.pdf";
 
 const About = () => {
@@ -6,7 +6,7 @@ const About = () => {
     <section className="container-xxl py-5">
       <div className="row g-4 align-items-center">
         <div className="col-12 col-lg-4">
-          <div className="card glass overflow-hidden text-center p-4">
+          <div className="card glass overflow-hidden text-center p-4 d-flex align-items-center flex-column">
             <img
               src={photo_dp}
               alt="A. Mohamed Sharfiras"
@@ -18,7 +18,11 @@ const About = () => {
               Frontend Web Developer with <strong>3+ years</strong> crafting
               responsive, accessible, and user-focused apps.
             </p>
-            <a href={resume} download className="btn btn-primary btn-glass mt-2">
+            <a
+              href={resume}
+              download
+              className="btn btn-primary btn-glass mt-2"
+            >
               Download Resume
             </a>
           </div>
@@ -35,9 +39,9 @@ const About = () => {
 
             <h3 className="h5 mt-4">Career Goals</h3>
             <p>
-              Expanding into <strong>full-stack</strong> with Node.js,
-              Express, and Next.js. I aim to contribute to innovative teams and
-              solve real-world problems.
+              Expanding into <strong>full-stack</strong> with Node.js, Express,
+              and Next.js. I aim to contribute to innovative teams and solve
+              real-world problems.
             </p>
 
             <h3 className="h5 mt-4">Career Background</h3>
@@ -58,7 +62,8 @@ const About = () => {
             <h3 className="h5 mt-4">Education</h3>
             <ul className="list-unstyled">
               <li className="mb-3">
-                <strong>2018 – 2022:</strong> BICT (Hons), University of Kelaniya
+                <strong>2018 – 2022:</strong> BICT (Hons), University of
+                Kelaniya
               </li>
               <li>
                 <strong>2014 – 2016:</strong> G.C.E Advanced Level, T/Kinniya

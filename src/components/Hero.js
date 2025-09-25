@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import photo_dp from "../assets/images/DP.png";
+import photo_dp from "../assets/images/DP.webp";
 
 const Hero = () => {
   return (
@@ -24,8 +24,8 @@ const Hero = () => {
               Hello, I&apos;m A. Mohamed Sharfiras
             </h1>
             <p className="lead text-body-secondary">
-              Creative Web Developer focused on fast, accessible React apps.
-              I love solving problems and crafting engaging experiences.
+              Creative Web Developer focused on fast, accessible React apps. I
+              love solving problems and crafting engaging experiences.
             </p>
             <div className="d-flex flex-wrap gap-3 mt-3">
               <Link className="btn btn-primary btn-glass" to="/contact">

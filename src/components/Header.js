@@ -4,8 +4,38 @@ import { FiSun, FiMoon } from "react-icons/fi";
 import Lougout from "./Lougout";
 import { useAuth } from "../context/AuthContext";
 
+function useCloseNavbarOnLinkClick() {
+  useEffect(() => {
+    const targetId = "mainNav"; // <= must match your collapse id
+    const collapseEl = document.getElementById(targetId);
+    const toggler = document.querySelector(`[data-bs-target="#${targetId}"]`);
+
+    if (!collapseEl || !toggler) return;
+
+    const handleClick = (e) => {
+      // Close when any nav link or dropdown item inside the collapse is clicked
+      const link = e.target.closest(
+        `#${targetId} .nav-link, #${targetId} .dropdown-item`
+      );
+      if (!link) return;
+
+      if (collapseEl.classList.contains("show")) {
+        // Close the collapse without needing window.bootstrap
+        collapseEl.classList.remove("show");
+        toggler.classList.add("collapsed");
+        toggler.setAttribute("aria-expanded", "false");
+      }
+    };
+
+    // Use event delegation on the whole document to catch all clicks
+    document.addEventListener("click", handleClick);
+    return () => document.removeEventListener("click", handleClick);
+  }, []);
+}
+
 const Header = () => {
   const { user } = useAuth();
+  useCloseNavbarOnLinkClick();
 
   // Read initial theme from <html data-bs-theme> or localStorage
   const initial =

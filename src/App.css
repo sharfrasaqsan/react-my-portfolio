@@ -259,3 +259,29 @@ main {
     will-change: auto;
   }
 }
+
+/* Gentle media zoom (GPU-friendly, Safari-safe) */
+.card-img-zoom img {
+  transition: transform var(--transition-fast);
+}
+.card-img-zoom:hover img {
+  transform: scale(1.03);
+}
+
+/* Multi-line clamp helpers */
+.line-clamp-2,
+.line-clamp-3,
+.line-clamp-4 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.line-clamp-2 {
+  -webkit-line-clamp: 2;
+}
+.line-clamp-3 {
+  -webkit-line-clamp: 3;
+}
+.line-clamp-4 {
+  -webkit-line-clamp: 4;
+}
