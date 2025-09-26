@@ -3,7 +3,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { useData } from "../context/DataContext";
 import Loading from "../utils/Loading";
 import { useAuth } from "../context/AuthContext";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 import { deleteDoc, doc } from "firebase/firestore";
 import { db } from "../firebase";
 import { useMemo, useState, useCallback } from "react";

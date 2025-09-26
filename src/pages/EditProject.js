@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState, useCallback } from "react";
 import { useData } from "../context/DataContext";
 import { useNavigate, useParams } from "react-router-dom";
 import { format } from "date-fns";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import Loading from "../utils/Loading";

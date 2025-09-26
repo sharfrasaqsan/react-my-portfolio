@@ -1,7 +1,7 @@
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useData } from "../context/DataContext";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 import { deleteDoc, doc } from "firebase/firestore";
 import { db } from "../firebase";
 import { useCallback, useState } from "react";
