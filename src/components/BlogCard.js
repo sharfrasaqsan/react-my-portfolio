@@ -1,3 +1,5 @@
+// BlogCard.js
+import React, { memo } from "react";
 import { Link } from "react-router-dom";
 
 const BlogCard = ({ blog }) => {
@@ -7,9 +9,11 @@ const BlogCard = ({ blog }) => {
     <div className="card glass h-100">
       <div className="card-body p-4">
         <h3 className="h5 mb-2">{blog.title}</h3>
-        <p className="text-body-secondary mb-0">
-          {blog.content ? blog.content.substring(0, 100) + "..." : ""}
-        </p>
+        {blog.content && (
+          <p className="text-body-secondary mb-0 line-clamp-2">
+            {blog.content}
+          </p>
+        )}
         <Link
           to={`/blog/${blog.id}`}
           className="stretched-link"
@@ -20,4 +24,4 @@ const BlogCard = ({ blog }) => {
   );
 };
 
-export default BlogCard;
+export default memo(BlogCard);

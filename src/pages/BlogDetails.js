@@ -6,34 +6,45 @@ import { useAuth } from "../context/AuthContext";
 import { toast } from "react-toastify";
 import { deleteDoc, doc } from "firebase/firestore";
 import { db } from "../firebase";
-import { useState } from "react";
+import { useMemo, useState, useCallback } from "react";
 
 const BlogDetails = () => {
   const { blogs, loading, setBlogs } = useData();
   const { user } = useAuth();
   const { id } = useParams();
   const navigate = useNavigate();
-  const [deleting, setDeleting] = useState(false);
+  const [deletingId, setDeletingId] = useState(null);
+
+  const blog = useMemo(() => blogs.find((b) => b.id === id), [blogs, id]);
+
+  const paragraphs = useMemo(
+    () => (blog.content || "").split("\n"),
+    [blog.content]
+  );
+
+  const handleDeleteBlog = useCallback(
+    async (blogId) => {
+      if (deletingId) return;
+      setDeletingId(blogId);
+      try {
+        await deleteDoc(doc(db, "blogs", blogId));
+        setBlogs((prev) => prev.filter((b) => b.id !== blogId));
+        toast.success("Blog deleted successfully!");
+        navigate("/blogs");
+      } catch (err) {
+        toast.error("Failed to delete blog! " + err.message);
+      } finally {
+        setDeletingId(null);
+      }
+    },
+    [deletingId, navigate, setBlogs]
+  );
 
   if (loading) return <Loading />;
-  if (blogs.length === 0) return <p className="text-center text-body-secondary">No Blogs to show!</p>;
-
-  const blog = blogs.find((b) => b.id === id);
-  if (!blog) return <p className="text-center text-body-secondary">Blog not found!</p>;
-
-  const handleDeleteBlog = async (blogId) => {
-    setDeleting(true);
-    try {
-      await deleteDoc(doc(db, "blogs", blogId));
-      setBlogs(blogs.filter((b) => b.id !== blogId));
-      toast.success("Blog deleted successfully!");
-      navigate("/blogs");
-    } catch (err) {
-      toast.error("Failed to delete blog! " + err.message);
-    } finally {
-      setDeleting(false);
-    }
-  };
+  if (blogs.length === 0)
+    return <p className="text-center text-body-secondary">No Blogs to show!</p>;
+  if (!blog)
+    return <p className="text-center text-body-secondary">Blog not found!</p>;
 
   return (
     <section className="container-xxl py-5">
@@ -49,7 +60,7 @@ const BlogDetails = () => {
         </p>
 
         <div className="mb-4">
-          {blog.content.split("\n").map((para, idx) => (
+          {paragraphs.map((para, idx) => (
             <p key={idx}>{para}</p>
           ))}
         </div>
@@ -65,9 +76,9 @@ const BlogDetails = () => {
             <button
               className="btn btn-sm btn-danger"
               onClick={() => handleDeleteBlog(blog.id)}
-              disabled={deleting}
+              disabled={deletingId === blog.id}
             >
-              {deleting ? "Deleting..." : "Delete"}
+              {deletingId === blog.id ? "Deleting..." : "Delete"}
             </button>
           </div>
         )}

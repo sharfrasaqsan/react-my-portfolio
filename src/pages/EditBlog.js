@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState, useCallback } from "react";
 import { useData } from "../context/DataContext";
 import Loading from "../utils/Loading";
 import { useNavigate, useParams } from "react-router-dom";
@@ -13,62 +13,53 @@ const EditBlog = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const blog = blogs.find((blog) => blog.id === id);
+  const selected = useMemo(() => blogs.find((b) => b.id === id), [blogs, id]);
 
   useEffect(() => {
-    if (blog) {
-      setEditBlog({ ...blog });
-    }
-  }, [blog, setEditBlog]);
+    if (selected) setEditBlog({ ...selected });
+  }, [selected, setEditBlog]);
 
-  if (loading) return <Loading />;
+  const handleOnChange = useCallback(
+    (e) => {
+      const { name, value } = e.target;
+      setEditBlog((prev) => ({ ...prev, [name]: value }));
+    },
+    [setEditBlog]
+  );
 
-  if (!editBlog) return <p className="no-blogs-found">Blog not found!</p>;
-
-  const handleOnChange = (e) => {
-    const { name, value } = e.target;
-
-    setEditBlog((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const cancelEdit = () => {
+  const cancelEdit = useCallback(() => {
     navigate(`/blog/${id}`);
     toast.warning("Blog update canceled!");
-    setEditBlog({
-      title: "",
-      content: "",
-    });
-  };
+    setEditBlog({ title: "", content: "" });
+  }, [id, navigate, setEditBlog]);
 
-  const handleEditBlog = async (blogId) => {
-    setUpdating(true);
-    try {
-      const updatedBlog = {
-        ...editBlog,
-        updatedAt: format(new Date(), "yyyy-MM-dd HH:mm:ss"),
-      };
-      await updateDoc(doc(db, "blogs", blogId), updatedBlog);
+  const handleEditBlog = useCallback(
+    async (blogId) => {
+      if (updating) return;
+      setUpdating(true);
+      try {
+        const updatedBlog = {
+          ...editBlog,
+          updatedAt: format(new Date(), "yyyy-MM-dd HH:mm:ss"),
+        };
+        await updateDoc(doc(db, "blogs", blogId), updatedBlog);
+        setBlogs((prev) =>
+          prev.map((b) => (b.id === blogId ? { ...b, ...updatedBlog } : b))
+        );
+        toast.success("Blog updated successfully!");
+        navigate(`/blog/${blogId}`);
+        setEditBlog({ title: "", content: "" });
+      } catch (err) {
+        toast.error("Failed to update blog! " + err.message);
+      } finally {
+        setUpdating(false);
+      }
+    },
+    [editBlog, navigate, setBlogs, setEditBlog, updating]
+  );
 
-      setBlogs(
-        blogs.map((blog) =>
-          blog.id === blogId ? { ...blog, ...updatedBlog } : blog
-        )
-      );
-      toast.success("Blog updated successfully!");
-      navigate(`/blog/${blogId}`);
-      setEditBlog({
-        title: "",
-        content: "",
-      });
-    } catch (err) {
-      toast.error("Failed to update blog! " + err.message);
-    } finally {
-      setUpdating(false);
-    }
-  };
+  if (loading) return <Loading />;
+  if (!editBlog) return <p className="no-blogs-found">Blog not found!</p>;
 
   return (
     <section className="container-xxl py-5">

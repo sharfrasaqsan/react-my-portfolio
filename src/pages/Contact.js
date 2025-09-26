@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -8,23 +8,40 @@ const Contact = () => {
   });
   const [formErrors, setFormErrors] = useState({});
   const [successMessage, setSuccessMessage] = useState("");
+  const [sending, setSending] = useState(false);
+  const abortRef = useRef(null);
+
+  const validateForm = useMemo(
+    () => (data) => {
+      const errors = {};
+      if (!data.name) errors.name = "Name is required";
+      if (!data.email) errors.email = "Email is required";
+      if (!data.message) errors.message = "Message is required";
+      return errors;
+    },
+    []
+  );
 
   const handleChange = (e) =>
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
 
-  const validateForm = () => {
-    const errors = {};
-    if (!formData.name) errors.name = "Name is required";
-    if (!formData.email) errors.email = "Email is required";
-    if (!formData.message) errors.message = "Message is required";
-    setFormErrors(errors);
-    return Object.keys(errors).length === 0;
-  };
+  useEffect(() => {
+    const t = setTimeout(() => setFormErrors(validateForm(formData)), 200);
+    return () => clearTimeout(t);
+  }, [formData, validateForm]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!validateForm()) return;
+    const errors = validateForm(formData);
+    setFormErrors(errors);
+    if (Object.keys(errors).length) return;
 
+    // abort previous request if any
+    abortRef.current?.abort();
+    abortRef.current = new AbortController();
+
+    setSending(true);
+    setSuccessMessage("");
     try {
       const response = await fetch(
         "https://node-portfolio-contact-server.vercel.app/send",
@@ -32,17 +49,22 @@ const Contact = () => {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(formData),
+          signal: abortRef.current.signal,
         }
       );
-      const data = await response.json();
-      if (response.ok) {
-        setSuccessMessage("Your message has been sent successfully!");
-        setFormData({ name: "", email: "", message: "" });
-      } else {
-        console.error("Error:", data);
-      }
+
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(data?.error || "Failed to send");
+
+      setSuccessMessage("Your message has been sent successfully!");
+      setFormData({ name: "", email: "", message: "" });
+      setFormErrors({});
     } catch (err) {
-      console.error("Error sending message:", err);
+      if (err.name !== "AbortError") {
+        console.error("Error sending message:", err);
+      }
+    } finally {
+      setSending(false);
     }
   };
 
@@ -64,6 +86,7 @@ const Contact = () => {
             className={`form-control ${formErrors.name ? "is-invalid" : ""}`}
             value={formData.name}
             onChange={handleChange}
+            disabled={sending}
           />
           {formErrors.name && (
             <div className="invalid-feedback">{formErrors.name}</div>
@@ -81,6 +104,7 @@ const Contact = () => {
             className={`form-control ${formErrors.email ? "is-invalid" : ""}`}
             value={formData.email}
             onChange={handleChange}
+            disabled={sending}
           />
           {formErrors.email && (
             <div className="invalid-feedback">{formErrors.email}</div>
@@ -98,6 +122,7 @@ const Contact = () => {
             className={`form-control ${formErrors.message ? "is-invalid" : ""}`}
             value={formData.message}
             onChange={handleChange}
+            disabled={sending}
           />
           {formErrors.message && (
             <div className="invalid-feedback">{formErrors.message}</div>
@@ -105,8 +130,12 @@ const Contact = () => {
         </div>
 
         <div className="col-12">
-          <button className="btn btn-primary btn-glass" type="submit">
-            Send Message
+          <button
+            className="btn btn-primary btn-glass"
+            type="submit"
+            disabled={sending}
+          >
+            {sending ? "Sending..." : "Send Message"}
           </button>
         </div>
         {successMessage && (

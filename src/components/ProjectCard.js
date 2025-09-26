@@ -1,11 +1,10 @@
+import React, { memo, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { FiExternalLink, FiGithub } from "react-icons/fi";
 
 const MAX_TAGS = 4;
 
-export default function ProjectCard({ project }) {
-  if (!project) return null;
-
+function ProjectCard({ project }) {
   const {
     id,
     title,
@@ -16,26 +15,30 @@ export default function ProjectCard({ project }) {
     repoLink,
   } = project;
 
-  const visibleTags = technologies.slice(0, MAX_TAGS);
-  const overflowCount = Math.max(technologies.length - MAX_TAGS, 0);
-  const overflowList =
-    overflowCount > 0 ? technologies.slice(MAX_TAGS).join(", ") : "";
+  const { visibleTags, overflowCount, overflowList } = useMemo(() => {
+    const visible = technologies.slice(0, MAX_TAGS);
+    const extra = Math.max(technologies.length - MAX_TAGS, 0);
+    return {
+      visibleTags: visible,
+      overflowCount: extra,
+      overflowList: extra > 0 ? technologies.slice(MAX_TAGS).join(", ") : "",
+    };
+  }, [technologies]);
 
   const imgSrc = screenshot || "/fallback.jpg";
-
-  const isDark =
-    typeof document !== "undefined" &&
-    document.documentElement.getAttribute("data-bs-theme") === "dark";
+  if (!project) return null;
 
   return (
     <article className="card glass h-100 d-flex flex-column">
-      {/* Media */}
       <div className="ratio ratio-16x9 overflow-hidden rounded-top-4 card-img-zoom">
         <img
           src={imgSrc}
           alt={title ? `${title} screenshot` : "Project screenshot"}
           loading="lazy"
           decoding="async"
+          width={1280}
+          height={720}
+          sizes="(max-width: 576px) 100vw, (max-width: 992px) 50vw, 33vw"
           className="w-100 h-100 object-fit-cover"
           onError={(e) => {
             e.currentTarget.src = "/fallback.jpg";
@@ -43,12 +46,8 @@ export default function ProjectCard({ project }) {
         />
       </div>
 
-      {/* Body */}
       <div className="card-body p-4 d-flex flex-column">
-        <Link
-          to={`/project/${id}`}
-          className="stretched-link text-decoration-none"
-        >
+        <Link to={`/project/${id}`} className="text-decoration-none">
           <h3 className="h5 mb-2">{title}</h3>
         </Link>
 
@@ -68,7 +67,6 @@ export default function ProjectCard({ project }) {
                 {t}
               </span>
             ))}
-
             {overflowCount > 0 && (
               <span
                 className="badge bg-secondary-subtle text-dark-emphasis rounded-pill"
@@ -81,7 +79,6 @@ export default function ProjectCard({ project }) {
           </div>
         )}
 
-        {/* CTAs pinned to bottom */}
         <div className="mt-auto d-flex flex-wrap gap-2">
           <a
             href={liveLink || "#"}
@@ -100,9 +97,7 @@ export default function ProjectCard({ project }) {
           <a
             href={repoLink || "#"}
             className={
-              `btn ${
-                isDark ? "btn-outline-light" : "btn-outline-dark"
-              } btn-glass d-flex align-items-center gap-2` +
+              "btn btn-gh btn-glass d-flex align-items-center gap-2" +
               (!repoLink ? " disabled" : "")
             }
             target="_blank"
@@ -117,3 +112,5 @@ export default function ProjectCard({ project }) {
     </article>
   );
 }
+
+export default memo(ProjectCard);

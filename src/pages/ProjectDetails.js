@@ -1,4 +1,6 @@
+// ProjectDetails.js
 import { Link, useParams } from "react-router-dom";
+import { useMemo } from "react";
 import { useData } from "../context/DataContext";
 import Loading from "../utils/Loading";
 import { useAuth } from "../context/AuthContext";
@@ -9,13 +11,21 @@ const ProjectDetails = () => {
   const { user } = useAuth();
   const { id } = useParams();
 
+  const project = useMemo(
+    () => projects.find((p) => p.id === id),
+    [projects, id]
+  );
+
+  const paragraphs = useMemo(
+    () => project.description.split("\n"),
+    [project.description]
+  );
+
   if (loading) return <Loading />;
-  if (projects.length === 0)
+  if (!projects || projects.length === 0)
     return (
       <p className="text-center text-body-secondary">No projects to show!</p>
     );
-
-  const project = projects.find((p) => p.id === id);
   if (!project)
     return (
       <p className="text-center text-body-secondary">Project not found!</p>
@@ -42,15 +52,18 @@ const ProjectDetails = () => {
             src={project.screenshot}
             alt={`${project.title} screenshot`}
             className="img-fluid rounded shadow-sm mb-4"
+            loading="lazy"
+            decoding="async"
+            width={1200}
+            height={675}
+            sizes="(max-width: 768px) 100vw, 800px"
           />
         )}
 
         <div className="mb-4">
           <h5>Description</h5>
-          {project.description.split("\n").map((para, idx) => (
-            <p key={idx} style={{ whiteSpace: "pre-line" }}>
-              {para}
-            </p>
+          {paragraphs.map((para, idx) => (
+            <p key={idx}>{para}</p>
           ))}
         </div>
 
@@ -84,7 +97,7 @@ const ProjectDetails = () => {
               href={project.repoLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn btn-outline-light btn-glass"
+              className="btn btn-gh btn-glass"
             >
               Repo Link
             </a>

@@ -1,3 +1,25 @@
+// Skills.js
+const FRONTEND = [
+  { name: "HTML", value: 95 },
+  { name: "CSS", value: 90 },
+  { name: "JavaScript", value: 85 },
+  { name: "React", value: 80 },
+];
+const BACKEND = [
+  { name: "Node.js", value: 50 },
+  { name: "Express", value: 50 },
+  { name: "MongoDB", value: 50 },
+  { name: "MySQL", value: 75 },
+];
+const TOOLS = ["WordPress", "Magento 2", "Git", "Firebase", "Adobe Tools"];
+const SOFT = [
+  "Communication",
+  "Problem-Solving",
+  "Adaptability",
+  "Time Management",
+  "Multitasking",
+];
+
 const Skills = () => {
   return (
     <section className="container-xxl py-5">
@@ -7,12 +29,7 @@ const Skills = () => {
         <div className="row g-4">
           <div className="col-md-6">
             <h5>Frontend</h5>
-            {[
-              { name: "HTML", value: 95 },
-              { name: "CSS", value: 90 },
-              { name: "JavaScript", value: 85 },
-              { name: "React", value: 80 },
-            ].map((s, i) => (
+            {FRONTEND.map((s, i) => (
               <div key={i} className="mb-3">
                 <span className="d-block small fw-semibold">{s.name}</span>
                 <div className="progress glass" style={{ height: "8px" }}>
@@ -27,12 +44,7 @@ const Skills = () => {
 
           <div className="col-md-6">
             <h5>Backend</h5>
-            {[
-              { name: "Node.js", value: 50 },
-              { name: "Express", value: 50 },
-              { name: "MongoDB", value: 50 },
-              { name: "MySQL", value: 75 },
-            ].map((s, i) => (
+            {BACKEND.map((s, i) => (
               <div key={i} className="mb-3">
                 <span className="d-block small fw-semibold">{s.name}</span>
                 <div className="progress glass" style={{ height: "8px" }}>
@@ -48,27 +60,19 @@ const Skills = () => {
 
         <h5 className="mt-4">Tools & Frameworks</h5>
         <ul className="list-inline">
-          {["WordPress", "Magento 2", "Git", "Firebase", "Adobe Tools"].map(
-            (tool, idx) => (
-              <li
-                key={idx}
-                className="badge bg-primary-subtle text-primary-emphasis me-2 mb-2"
-              >
-                {tool}
-              </li>
-            )
-          )}
+          {TOOLS.map((tool, idx) => (
+            <li
+              key={idx}
+              className="badge bg-primary-subtle text-primary-emphasis me-2 mb-2"
+            >
+              {tool}
+            </li>
+          ))}
         </ul>
 
         <h5 className="mt-4">Soft Skills</h5>
         <ul className="list-inline">
-          {[
-            "Communication",
-            "Problem-Solving",
-            "Adaptability",
-            "Time Management",
-            "Multitasking",
-          ].map((soft, idx) => (
+          {SOFT.map((soft, idx) => (
             <li
               key={idx}
               className="badge bg-secondary-subtle text-dark-emphasis me-2 mb-2"

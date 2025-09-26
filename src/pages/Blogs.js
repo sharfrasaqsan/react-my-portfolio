@@ -6,7 +6,7 @@ const Blogs = () => {
   const { blogs, loading } = useData();
 
   if (loading) return <Loading />;
-  if (blogs.length === 0)
+  if (!blogs || blogs.length === 0)
     return <p className="text-center text-body-secondary">No blogs found!</p>;
 
   return (

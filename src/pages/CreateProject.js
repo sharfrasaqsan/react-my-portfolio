@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useData } from "../context/DataContext";
 import { toast } from "react-toastify";
 import { format } from "date-fns";
@@ -10,17 +10,21 @@ import Loading from "../utils/Loading";
 const CreateProject = () => {
   const { project, setProject, projects, setProjects, loading } = useData();
   const [uploading, setUploading] = useState(false);
+  const [previewUrl, setPreviewUrl] = useState("");
   const navigate = useNavigate();
+  const mounted = useRef(true);
 
-  if (loading) return <Loading />;
+  useEffect(
+    () => () => {
+      mounted.current = false;
+    },
+    []
+  );
 
-  if (!project) return <p className="no-projects-found">Project not found</p>;
-
-  const uploadImageToCloudinary = async (file) => {
+  const uploadImageToCloudinary = useCallback(async (file) => {
     const formData = new FormData();
     formData.append("file", file);
     formData.append("upload_preset", "react-portfolio");
-
     const res = await fetch(
       "https://api.cloudinary.com/v1_1/sharfras/image/upload",
       {
@@ -28,35 +32,44 @@ const CreateProject = () => {
         body: formData,
       }
     );
-
     const data = await res.json();
+    if (!res.ok || !data.secure_url) throw new Error("Image upload failed");
     return data.secure_url;
-  };
+  }, []);
 
-  const handleOnchange = (e) => {
-    const { name, value, files } = e.target;
-
-    if (name === "screenshot") {
-      setProject((prev) => ({
-        ...prev,
-        screenshot: files[0],
-      }));
-    } else if (name === "technologies") {
-      setProject((prev) => ({
-        ...prev,
-        [name]: value.split(",").map((tech) => tech.trim()),
-      }));
+  // Clean up blob previews
+  useEffect(() => {
+    if (project?.screenshot && typeof project.screenshot === "object") {
+      const url = URL.createObjectURL(project.screenshot);
+      setPreviewUrl(url);
+      return () => URL.revokeObjectURL(url);
     } else {
-      setProject((prev) => ({
-        ...prev,
-        [name]: value,
-      }));
+      setPreviewUrl("");
     }
-  };
+  }, [project?.screenshot]);
 
-  const cencelCreate = () => {
-    navigate("/projects");
-    toast.warning("Project creation canceled!");
+  const handleOnchange = useCallback(
+    (e) => {
+      const { name, value, files } = e.target;
+      if (name === "screenshot") {
+        const file = files?.[0];
+        setProject((prev) => ({ ...prev, screenshot: file || "" }));
+      } else if (name === "technologies") {
+        setProject((prev) => ({
+          ...prev,
+          technologies: value
+            .split(",")
+            .map((t) => t.trim())
+            .filter(Boolean),
+        }));
+      } else {
+        setProject((prev) => ({ ...prev, [name]: value }));
+      }
+    },
+    [setProject]
+  );
+
+  const resetProject = useCallback(() => {
     setProject({
       title: "",
       shortDescription: "",
@@ -68,65 +81,63 @@ const CreateProject = () => {
       createdAt: "",
       updatedAt: "",
     });
-  };
+  }, [setProject]);
 
-  const handleCreateProject = async (e) => {
-    e.preventDefault();
+  const cencelCreate = useCallback(() => {
+    navigate("/projects");
+    toast.warning("Project creation canceled!");
+    resetProject();
+  }, [navigate, resetProject]);
 
-    if (
-      !project.title ||
-      !project.shortDescription ||
-      !project.description ||
-      !project.technologies.length
-    )
-      return toast.error("All fields are required!");
+  const handleCreateProject = useCallback(
+    async (e) => {
+      e.preventDefault();
+      if (uploading) return;
 
-    if (!project.screenshot) return toast.error("Screenshot is required!");
-
-    setUploading(true);
-
-    try {
-      let screenshotUrl = "";
-      if (project.screenshot) {
-        screenshotUrl = await uploadImageToCloudinary(project.screenshot);
+      if (
+        !project.title ||
+        !project.shortDescription ||
+        !project.description ||
+        !project.technologies.length
+      ) {
+        return toast.error("All fields are required!");
       }
+      if (!project.screenshot) return toast.error("Screenshot is required!");
 
-      const newProject = {
-        ...project,
-        screenshot: screenshotUrl,
-        createdAt: format(new Date(), "yyyy-MM-dd HH:mm:ss"),
-        updatedAt: "",
-      };
+      setUploading(true);
+      try {
+        const screenshotUrl = await uploadImageToCloudinary(project.screenshot);
+        const newProject = {
+          ...project,
+          screenshot: screenshotUrl,
+          createdAt: format(new Date(), "yyyy-MM-dd HH:mm:ss"),
+          updatedAt: "",
+        };
+        const res = await addDoc(collection(db, "projects"), newProject);
+        if (!res.id) throw new Error("Failed to create project");
 
-      const res = await addDoc(collection(db, "projects"), newProject);
-      if (!res.id) {
-        toast.error("Failed to create project!");
-        return;
+        setProjects((prev) => [...prev, { id: res.id, ...newProject }]);
+        resetProject();
+        toast.success("Project created successfully!");
+        navigate("/projects");
+      } catch (err) {
+        toast.error(`Failed to create project! ${err.message}`);
+      } finally {
+        mounted.current && setUploading(false);
       }
+    },
+    [
+      navigate,
+      project,
+      resetProject,
+      setProjects,
+      uploadImageToCloudinary,
+      uploading,
+    ]
+  );
 
-      setProjects([...projects, { id: res.id, ...newProject }]);
-
-      // Reset form
-      setProject({
-        title: "",
-        shortDescription: "",
-        description: "",
-        technologies: [],
-        screenshot: "",
-        liveLink: "",
-        repoLink: "",
-        createdAt: "",
-        updatedAt: "",
-      });
-
-      toast.success("Project created successfully!");
-      navigate("/projects");
-    } catch (err) {
-      toast.error(`Failed to create project! ${err.message}`);
-    } finally {
-      setUploading(false);
-    }
-  };
+  if (loading) return <Loading />;
+  if (!project) return <p className="no-projects-found">Project not found</p>;
 
   return (
     <section className="container-xxl py-5">
@@ -149,6 +160,7 @@ const CreateProject = () => {
               onChange={handleOnchange}
             />
           </div>
+
           <div className="col-12">
             <label htmlFor="shortDescription" className="form-label">
               Short Description
@@ -163,6 +175,7 @@ const CreateProject = () => {
               onChange={handleOnchange}
             />
           </div>
+
           <div className="col-12">
             <label htmlFor="description" className="form-label">
               Description
@@ -177,6 +190,7 @@ const CreateProject = () => {
               onChange={handleOnchange}
             />
           </div>
+
           <div className="col-12">
             <label htmlFor="technologies" className="form-label">
               Technologies
@@ -191,6 +205,7 @@ const CreateProject = () => {
               onChange={handleOnchange}
             />
           </div>
+
           <div className="col-12">
             <label htmlFor="screenshot" className="form-label">
               Screenshot
@@ -203,15 +218,18 @@ const CreateProject = () => {
               className="form-control"
               onChange={handleOnchange}
             />
-            {project.screenshot && typeof project.screenshot === "object" && (
+            {previewUrl && (
               <img
-                src={URL.createObjectURL(project.screenshot)}
+                src={previewUrl}
                 alt="Preview"
                 className="img-fluid rounded mt-3"
-                style={{ maxWidth: "300px" }}
+                width={600}
+                height={338}
+                style={{ maxWidth: "300px", height: "auto" }}
               />
             )}
           </div>
+
           <div className="col-12 col-md-6">
             <label htmlFor="liveLink" className="form-label">
               Live Link
@@ -225,6 +243,7 @@ const CreateProject = () => {
               onChange={handleOnchange}
             />
           </div>
+
           <div className="col-12 col-md-6">
             <label htmlFor="repoLink" className="form-label">
               Repository Link
@@ -238,6 +257,7 @@ const CreateProject = () => {
               onChange={handleOnchange}
             />
           </div>
+
           <div className="col-12 d-flex gap-2">
             <button
               className="btn btn-primary btn-glass"

@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import ProjectCard from "./ProjectCard";
 import { useData } from "../context/DataContext";
 import Loading from "../utils/Loading";
@@ -5,6 +6,11 @@ import Search from "./Search";
 
 const ProjectList = () => {
   const { projects, loading, searchedProjects } = useData();
+
+  const sorted = useMemo(() => {
+    const arr = [...(searchedProjects || [])];
+    return arr.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+  }, [searchedProjects]);
 
   if (loading) return <Loading />;
 
@@ -15,10 +21,6 @@ const ProjectList = () => {
       </div>
     );
   }
-
-  const sorted = [...(searchedProjects || [])].sort(
-    (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-  );
 
   return (
     <section className="container-xxl py-5">

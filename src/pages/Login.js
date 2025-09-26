@@ -1,4 +1,5 @@
-import { useState } from "react";
+// Login.js
+import { useCallback, useState } from "react";
 import { toast } from "react-toastify";
 import { useAuth } from "../context/AuthContext";
 import { signInWithEmailAndPassword } from "firebase/auth";
@@ -14,42 +15,46 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const validateForm = () => {
+  const validateForm = useCallback(() => {
     const errors = {};
     if (!email) errors.email = "Email is required";
     if (!password) errors.password = "Password is required";
     setFormErrors(errors);
     return Object.keys(errors).length === 0;
-  };
+  }, [email, password]);
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    if (!validateForm()) return;
-    setLoading(true);
-    try {
-      const userCredentials = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      const user = userCredentials.user;
-      const res = await getDoc(doc(db, "admin", user.uid));
-      if (!res.exists()) {
-        toast.error("User not found");
-        return;
+  const handleLogin = useCallback(
+    async (e) => {
+      e.preventDefault();
+      if (loading) return;
+      if (!validateForm()) return;
+
+      setLoading(true);
+      try {
+        const { user } = await signInWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
+        const res = await getDoc(doc(db, "admin", user.uid));
+        if (!res.exists()) {
+          toast.error("User not found");
+        } else {
+          setUser(res.data());
+          setEmail("");
+          setPassword("");
+          setFormErrors({});
+          toast.success("Login successful");
+          navigate("/admin");
+        }
+      } catch (err) {
+        toast.error("Login failed: " + err.message);
+      } finally {
+        setLoading(false);
       }
-      setUser(res.data());
-      setEmail("");
-      setPassword("");
-      setFormErrors({});
-      toast.success("Login successful");
-      navigate("/admin");
-    } catch (err) {
-      toast.error("Login failed: " + err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
+    },
+    [email, password, loading, navigate, setUser, validateForm]
+  );
 
   return (
     <section className="container-xxl py-5">
@@ -65,7 +70,8 @@ const Login = () => {
             </label>
             <input
               id="email"
-              type="text"
+              type="email"
+              autoComplete="email"
               className={`form-control ${formErrors.email ? "is-invalid" : ""}`}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -81,6 +87,7 @@ const Login = () => {
             <input
               id="password"
               type="password"
+              autoComplete="current-password"
               className={`form-control ${
                 formErrors.password ? "is-invalid" : ""
               }`}

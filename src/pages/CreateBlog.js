@@ -5,51 +5,59 @@ import { format } from "date-fns";
 import { addDoc, collection } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import { db } from "../firebase";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 const CreateBlog = () => {
-  const { blog, setBlog, blogs, setBlogs, loading } = useData();
+  const { blog, setBlog, setBlogs, loading } = useData();
   const [uploading, setUploading] = useState(false);
   const navigate = useNavigate();
+
+  const handleOnChange = useCallback(
+    (e) => {
+      const { name, value } = e.target;
+      setBlog((prev) => ({ ...prev, [name]: value }));
+    },
+    [setBlog]
+  );
+
+  const cancelCreate = useCallback(() => {
+    navigate("/blogs");
+    toast.warning("Blog creation canceled!");
+    setBlog({ title: "", content: "" }); // ← fix: reset the single blog draft
+  }, [navigate, setBlog]);
+
+  const handleCreateBlog = useCallback(
+    async (e) => {
+      e.preventDefault();
+      if (!blog.title || !blog.content) {
+        toast.error("All fields are required!");
+        return;
+      }
+      if (uploading) return;
+
+      setUploading(true);
+      try {
+        const newBlog = {
+          ...blog,
+          createdAt: format(new Date(), "yyyy-MM-dd HH:mm:ss"),
+        };
+        const res = await addDoc(collection(db, "blogs"), newBlog);
+        setBlogs((prev) => [...prev, { id: res.id, ...newBlog }]);
+        setBlog({ title: "", content: "" });
+        toast.success("Blog created successfully!");
+        navigate("/blogs");
+      } catch (err) {
+        toast.error("Failed to create blog! " + err.message);
+      } finally {
+        setUploading(false);
+      }
+    },
+    [blog, navigate, setBlog, setBlogs, uploading]
+  );
 
   if (loading) return <Loading />;
   if (!blog)
     return <p className="text-center text-body-secondary">Blog not found</p>;
-
-  const handleOnChange = (e) => {
-    const { name, value } = e.target;
-    setBlog((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const cancelCreate = () => {
-    navigate("/blogs");
-    toast.warning("Blog creation canceled!");
-    setBlogs({ title: "", content: "" });
-  };
-
-  const handleCreateBlog = async (e) => {
-    e.preventDefault();
-    if (!blog.title || !blog.content) {
-      toast.error("All fields are required!");
-      return;
-    }
-    setUploading(true);
-    try {
-      const newBlog = {
-        ...blog,
-        createdAt: format(new Date(), "yyyy-MM-dd HH:mm:ss"),
-      };
-      const res = await addDoc(collection(db, "blogs"), newBlog);
-      setBlogs([...blogs, { id: res.id, ...newBlog }]);
-      setBlog({ title: "", content: "" });
-      toast.success("Blog created successfully!");
-      navigate("/blogs");
-    } catch (err) {
-      toast.error("Failed to create blog! " + err.message);
-    } finally {
-      setUploading(false);
-    }
-  };
 
   return (
     <section className="container-xxl py-5">

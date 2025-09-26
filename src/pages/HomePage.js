@@ -1,9 +1,13 @@
-import Hero from "../components/Hero";
+// HomePage.js
+import { Suspense, lazy } from "react";
+const Hero = lazy(() => import("../components/Hero"));
 
 const HomePage = () => {
   return (
     <main className="container-xxl py-5">
-      <Hero />
+      <Suspense fallback={<div className="text-center py-5">Loading…</div>}>
+        <Hero />
+      </Suspense>
     </main>
   );
 };

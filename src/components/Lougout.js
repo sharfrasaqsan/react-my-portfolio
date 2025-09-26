@@ -1,3 +1,5 @@
+// Lougout.js
+import { useEffect, useRef, useState } from "react";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase";
 import { useAuth } from "../context/AuthContext";
@@ -8,12 +10,31 @@ import { CiLogout } from "react-icons/ci";
 const Lougout = () => {
   const { user, setUser } = useAuth();
   const navigate = useNavigate();
+  const [busy, setBusy] = useState(false);
+  const mounted = useRef(true);
+
+  useEffect(
+    () => () => {
+      mounted.current = false;
+    },
+    []
+  );
 
   const handleLogout = async () => {
-    await signOut(auth);
-    setUser(null);
-    toast.success("Logout successful");
-    navigate("/");
+    if (busy) return;
+    setBusy(true);
+    try {
+      await signOut(auth);
+      if (mounted.current) {
+        setUser(null);
+        toast.success("Logout successful");
+        navigate("/");
+      }
+    } catch (e) {
+      toast.error("Failed to logout. Please try again.");
+    } finally {
+      mounted.current && setBusy(false);
+    }
   };
 
   if (!user) return null;
@@ -25,8 +46,9 @@ const Lougout = () => {
       onClick={handleLogout}
       aria-label="Logout"
       title="Logout"
+      disabled={busy}
     >
-      <CiLogout aria-hidden /> Logout
+      <CiLogout aria-hidden /> {busy ? "Logging out..." : "Logout"}
     </button>
   );
 };
