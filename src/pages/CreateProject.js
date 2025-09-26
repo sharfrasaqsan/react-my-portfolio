@@ -1,6 +1,6 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useData } from "../context/DataContext";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 import { format } from "date-fns";
 import { addDoc, collection } from "firebase/firestore";
 import { db } from "../firebase";
@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import Loading from "../utils/Loading";
 
 const CreateProject = () => {
-  const { project, setProject, projects, setProjects, loading } = useData();
+  const { project, setProject, setProjects, loading } = useData();
   const [uploading, setUploading] = useState(false);
   const [previewUrl, setPreviewUrl] = useState("");
   const navigate = useNavigate();

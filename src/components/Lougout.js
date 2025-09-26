@@ -1,10 +1,9 @@
-// Lougout.js
 import { useEffect, useRef, useState } from "react";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 import { CiLogout } from "react-icons/ci";
 
 const Lougout = () => {
