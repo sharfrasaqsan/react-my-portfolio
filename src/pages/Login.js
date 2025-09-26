@@ -1,11 +1,11 @@
 // Login.js
 import { useCallback, useState } from "react";
-import { toast } from "react-toastify";
 import { useAuth } from "../context/AuthContext";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "../firebase";
 import { doc, getDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 const Login = () => {
   const { setUser } = useAuth();

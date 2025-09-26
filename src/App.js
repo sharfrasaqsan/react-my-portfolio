@@ -1,6 +1,5 @@
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
-import { Bounce, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import Header from "./components/Header";
@@ -24,6 +23,7 @@ import Blogs from "./pages/Blogs";
 
 import ScrollToTop from "./utils/ScrollToTop";
 import PrivateRoute from "./utils/PrivateRoute";
+import { Toaster } from "sonner";
 
 function App() {
   return (
@@ -87,19 +87,7 @@ function App() {
       </main>
 
       <Footer />
-      <ToastContainer
-        position="top-center"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={true}
-        closeOnClick={false}
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="colored"
-        transition={Bounce}
-      />
+      <Toaster />
     </div>
   );
 }
